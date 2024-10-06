@@ -1,0 +1,311 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+/* ===== html ===== */
+HTML {
+  scroll-behavior: smooth;
+}
+
+
+/* ===== header ===== */
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  height: 400px;
+  background: #1c1823;
+}
+
+header>h1 {
+  font-size: 2.5rem;
+}
+
+header>h2 {
+  font-size: 1rem;
+}
+
+/* ===== container ===== */
+.container {
+  display: grid;
+  grid-auto-rows: auto;
+  gap: 16px;
+  padding: 16px;
+  min-height: 100dvh;
+  box-shadow: inset 0 0 0 4px darkorange;
+  background: #1c1823;
+}
+
+/* ===== categories ===== */
+.categories {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 4px;
+  /* border: 4px solid maroon; */
+}
+
+.categories>section:first-child {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr;
+}
+
+.categories>section:first-child>h2 {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.categories>section:first-child>img {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ===== category cards ===== */
+.category-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.125);
+}
+
+/* ===== cards ===== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+}
+
+.cards:nth-of-type(2),
+.cards:nth-of-type(3),
+.cards:nth-of-type(4) {
+  display: none;
+}
+
+.cards>div {
+  display: grid;
+  grid-auto-rows: auto;
+  place-items: center;
+  gap: 16px;
+  border: 1px solid #121212;
+}
+
+/* .cards>div:nth-of-type() {
+
+} */
+
+.cards>div>a {
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  font-weight: bold;
+  color: #DFD0F5;
+  border: 2px solid red;
+}
+
+.cards>div>a>div {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.cards>div>a>div>img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 250ms ease-in-out;
+}
+
+.cards>div>a>div>img:hover {
+  transform: scale(1.1);
+}
+
+.cards>div>section>button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  border: none;
+  background: none;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.cards>div>section>button:nth-of-type(2) {
+  display: none;
+}
+
+.cards>div>section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #DFD0F5;
+  width: 40px;
+  border-radius: 4px;
+  padding: 4px;
+  transition:
+    background 250ms ease-in-out,
+    width 250ms ease-in-out,
+    border-radius 250ms ease-in-out;
+}
+
+.cards>div>section {
+  background: #F03922;
+}
+
+.cards>div>section>button>svg {
+  transition: transform 250ms ease-in-out;
+}
+
+.cards>div>section>button:hover {
+  cursor: pointer;
+}
+
+.cards>div>section>button:hover>svg {
+  transform: scale(1.2);
+}
+
+.cards>div>textarea {
+  /* justify-self: end; */
+  width: 100%;
+  height: 200px;
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.cardsSwitchMode {
+  grid-template-columns: 1fr;
+}
+
+.cardsSwitchMode>a {
+  display: none !important;
+}
+
+.cardsSwitchMode>section {
+  grid-column: 1;
+  grid-row: 1;
+  position: sticky;
+  z-index: 2;
+  align-self: start;
+  width: 100% !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+  border-radius: 0 !important;
+}
+
+.cardsSwitchMode>textarea {
+  padding-top: 40px !important;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* ===== show more options ===== */
+.showMoreoptions {
+  display: flex;
+  gap: 5%;
+  justify-content: center;
+}
+
+.showMoreoptions>button {
+  width: 100%;
+  border: none;
+  padding: 8px;
+  font-weight: bold;
+}
+
+.showMoreoptions>button:hover {
+  cursor: pointer;
+}
+
+/* ===== main section ===== */
+.main-section {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 4px;
+}
+
+/* ===== recipes ===== */
+.recipes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 400px);
+  gap: 4px;
+  padding: 4px;
+}
+
+.recipes>article {
+  display: grid;
+  grid-auto-rows: 1fr;
+  place-items: center;
+  border: 1px solid #121212;
+}
+
+.recipes>article>img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.recipes>p {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  gap: 4px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 6px 0 #121212;
+}
+
+/* ===== navbar ===== */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5%;
+  padding-block: 4px;
+}
+
+.navbar>button {
+  display: grid;
+  place-items: center;
+  width: 100px;
+  height: 100px;
+  border: none;
+  background: none;
+  border-radius: 50%;
+  box-shadow: inset 0 0 6px 0 #121212;
+  overflow: hidden;
+  transition: background 250ms ease-in-out;
+}
+
+.navbar>button>svg {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  transition: transform 250ms ease-in-out;
+}
+
+.navbar>button:hover {
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.navbar>button:hover>svg {
+  transform: scale(1.2);
+}
