@@ -1,58 +1,61 @@
-import { categoryName, categoryThumb } from "./main.js"
-import { parent, btn_prev, btn_next } from "./globalVar.js"
-import { createCard } from "./generateCard.js"
+import { categoryName, categoryThumb } from "./main.js";
+import { btn_prev, btn_next } from "./globalVar.js";
+import { createCard } from "./generateCard.js";
 
-let currentIndexNext = 4
+const states = {
+  currentIndex: 4,
+  reference: [],
+};
+
+export const resetCurrentIndex = () => (states.currentIndex = 4);
+export const resetReference = () => (states.reference = []);
 
 const nextPage = () => {
-  const fragment = document.createDocumentFragment()
+  const fragment = document.createDocumentFragment();
+  let maxLength = Math.min(states.currentIndex + 4, categoryName.length);
 
-  for (let index = currentIndexNext; index < categoryName.length; index++) {
-    createCard(categoryName, categoryThumb, fragment, index)
+  for (let i = states.currentIndex; i < maxLength; i++) {
+    createCard(categoryName, categoryThumb, fragment, i);
   }
 
-  parent.innerHTML = ""
+  states.reference.push(document.querySelector(".recipes").cloneNode(true));
 
-  for (let index = 0; index < 4; index++) {
+  document.querySelector(".recipes").innerHTML = "";
+
+  for (let i = 0; i < 4; i++) {
     if (fragment.firstElementChild === null) {
-      break
+      break;
     }
-    parent.append(fragment.firstElementChild)
+    document.querySelector(".recipes").append(fragment.firstElementChild);
   }
 
-  btn_next.disabled = fragment.childElementCount === 0
-
-  currentIndexNext += 4
-}
+  if (maxLength === categoryName.length) {
+    btn_next.disabled = true;
+    return;
+  } else {
+    states.currentIndex += 4;
+  }
+};
 
 const prevPage = () => {
-  const fragment = document.createDocumentFragment()
-
-  for (let index = 0; index < categoryName.length; index++) {
-    createCard(categoryName, categoryThumb, fragment, index)
-  }
-
-  const position = categoryName.indexOf(parent.firstElementChild.textContent.trim())
-
-  parent.innerHTML = ""
-
-  btn_prev.disabled = fragment.children[position - 8] === undefined
-
-  for (let index = 0; index < 4; index++) {
-    parent.prepend(fragment.children[position - index].previousElementSibling)
-  }
-
-  currentIndexNext = categoryName.indexOf(parent.lastElementChild.textContent.trim()) + 1
-}
+  document
+    .querySelector(".main-section")
+    .replaceChild(states.reference.pop(), document.querySelector(".recipes"));
+  states.currentIndex =
+    categoryName.indexOf(
+      document.querySelector(".recipes").lastElementChild.textContent.trim()
+    ) + 1;
+  btn_prev.disabled = states.reference.length === 0;
+};
 
 btn_prev.addEventListener("click", () => {
-  prevPage()
+  prevPage();
   if (btn_next.disabled === true) {
-    btn_next.disabled = false
+    btn_next.disabled = false;
   }
-})
+});
 
 btn_next.addEventListener("click", () => {
-  nextPage()
-  btn_prev.disabled = false
-})
+  nextPage();
+  btn_prev.disabled = false;
+});

@@ -1,121 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipes</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="data:," />
+    <script type="module" src="main.js"></script>
+    <script type="module" src="./navBar.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recipes</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="data:,">
-  <script type="module" src="main.js"></script>
-  <script type="module" src="./navBar.js"></script>
-</head>
-
-<body>
-  <header>
-    <h1>The Recipe Box</h1>
-    <h2>Discover Delicious New Favorites</h2>
-    <nav>
-      <fieldset>
-        <legend>Search:</legend>
-        <input type="search" autofocus>
-        <button type="search-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="icon icon-tabler icons-tabler-outline icon-tabler-search">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-            <path d="M21 21l-6 -6" />
-          </svg>
-        </button>
-      </fieldset>
-    </nav>
-  </header>
-  <main>
-    <div class="container">
-      <section class="categories">
-        <section>
-          <h2>Choice your favorite category</h2>
-          <img src="./assets/png/chef-image.png" alt="chef">
+  <body>
+    <header>
+      <h1>The Recipe Box</h1>
+      <h2>Discover Delicious New Favorites</h2>
+      <nav>
+        <fieldset>
+          <legend>Search:</legend>
+          <input type="search" autofocus />
+          <button type="search-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-search"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+              <path d="M21 21l-6 -6" />
+            </svg>
+          </button>
+        </fieldset>
+      </nav>
+    </header>
+    <main>
+      <div class="container">
+        <section class="categories">
+          <section>
+            <h2>Choice your favorite category</h2>
+            <img src="./assets/png/chef-image.png" alt="chef" />
+          </section>
+          <section class="category-cards">
+            <section class="cards"></section>
+            <section class="cards"></section>
+            <section class="cards"></section>
+            <section class="cards"></section>
+            <div class="showMoreoptions">
+              <button type="button" class="moreBtn" disabled>prev</button>
+              <button type="button" class="moreBtn">next</button>
+            </div>
+          </section>
         </section>
-        <section class="category-cards">
-          <section class="cards"></section>
-          <section class="cards"></section>
-          <section class="cards"></section>
-          <section class="cards"></section>
-          <div class="showMoreoptions">
-            <button type="button" class="moreBtn" disabled>previous</button>
-            <button type="button" class="moreBtn">next</button>
+
+        <div class="main-section">
+          <section class="recipes" id="targetRecipes"></section>
+          <div class="navbar">
+            <button type="button" class="navBtn" disabled>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M5 12l14 0" />
+                <path d="M5 12l6 6" />
+                <path d="M5 12l6 -6" />
+              </svg>
+            </button>
+            <button type="button" class="navBtn" disabled>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-right"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M5 12l14 0" />
+                <path d="M13 18l6 -6" />
+                <path d="M13 6l6 6" />
+              </svg>
+            </button>
           </div>
-        </section>
-      </section>
-
-      <div class="main-section">
-        <section class="recipes" id="recipes"></section>
-        <div class="navbar">
-          <button type="button" class="navBtn" disabled>
-            <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" viewBox="0 0 24 24" fill="none"
-              stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M5 12l14 0" />
-              <path d="M5 12l6 6" />
-              <path d="M5 12l6 -6" />
-            </svg>
-          </button>
-          <button type="button" class="navBtn" disabled>
-            <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" viewBox="0 0 24 24" fill="none"
-              stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-right">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M5 12l14 0" />
-              <path d="M13 18l6 -6" />
-              <path d="M13 6l6 6" />
-            </svg>
-          </button>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
 
-  <footer>footer</footer>
+    <footer>footer</footer>
 
-  <template id="template">
-    <p>
-      empity
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="icon icon-tabler icons-tabler-outline icon-tabler-mood-empty">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-        <path d="M9 10l.01 0" />
-        <path d="M15 10l.01 0" />
-        <path d="M9 15l6 0" />
-      </svg>
-    </p>
+    <template id="template">
+      <p>
+        empity
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-mood-empty"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+          <path d="M9 10l.01 0" />
+          <path d="M15 10l.01 0" />
+          <path d="M9 15l6 0" />
+        </svg>
+      </p>
 
-    <article>
-      <span></span>
-      <img src="" alt="">
-    </article>
+      <article>
+        <span></span>
+        <img src="" alt="" />
+      </article>
 
-    <div>
-      <a href="#recipes"></a>
       <div>
-        <img src="" alt="">
-      </div>
-      <section>
-        <button>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="icon icon-tabler icons-tabler-outline icon-tabler-info-circle">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-            <path d="M12 9h.01" />
-            <path d="M11 12h1v4h1" />
-          </svg>
-        </button>
-        <!-- <button>
+        <a href="#targetRecipes"></a>
+        <div>
+          <img src="" alt="" />
+        </div>
+        <section>
+          <button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-info-circle"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+              <path d="M12 9h.01" />
+              <path d="M11 12h1v4h1" />
+            </svg>
+          </button>
+          <!-- <button>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
             class="icon icon-tabler icons-tabler-outline icon-tabler-square-rounded-x">
@@ -124,10 +168,9 @@
             <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
           </svg>
         </button> -->
-      </section>
-      <textarea readonly hidden></textarea>
-    </div>
-  </template>
-</body>
-
+        </section>
+        <textarea readonly hidden></textarea>
+      </div>
+    </template>
+  </body>
 </html>
