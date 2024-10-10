@@ -41,6 +41,7 @@ const prevPage = () => {
   document
     .querySelector(".main-section")
     .replaceChild(states.reference.pop(), document.querySelector(".recipes"));
+
   states.currentIndex =
     categoryName.indexOf(
       document.querySelector(".recipes").lastElementChild.textContent.trim()
