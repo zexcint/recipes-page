@@ -23,8 +23,8 @@
       <h2>Discover Delicious New Favorites</h2>
       <nav>
         <fieldset>
-          <legend>Search:</legend>
-          <input type="search" autofocus />
+          <!-- <legend>Search:</legend> -->
+          <input type="search" autofocus placeholder="Search..." />
           <button type="search-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -50,8 +50,10 @@
       <div class="container">
         <section class="categories">
           <section>
-            <h2>Choice your favorite category</h2>
-            <img src="./assets/png/chef-image.png" alt="chef" />
+            <div>
+              <h2>Choice your favorite category</h2>
+              <!-- <img src="./assets/png/chef-image.png" alt="chef" /> -->
+            </div>
           </section>
           <section class="category-cards">
             <section class="cards"></section>
@@ -59,7 +61,12 @@
             <section class="cards"></section>
             <section class="cards"></section>
             <div class="showMoreoptions">
-              <button type="button" class="moreBtn" disabled>
+              <button
+                type="button"
+                class="toggleCardBtn"
+                disabled
+                data-id="prev"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -78,7 +85,7 @@
                   <path d="M5 12l6 -6" />
                 </svg>
               </button>
-              <button type="button" class="moreBtn">
+              <button type="button" class="toggleCardBtn" data-id="next">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -102,8 +109,9 @@
         </section>
 
         <div class="main-section">
-          <section class="recipes" id="targetRecipes"></section>
-          <div class="navbar">
+          <section class="recipes js-hide" id="targetRecipes"></section>
+          <div class="loading" hidden></div>
+          <div class="navbar js-hide">
             <button type="button" class="navBtn" disabled>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +155,15 @@
       </div>
     </main>
 
-    <footer>footer</footer>
+    <footer>
+      <p>Contact us</p>
+      <form action="">
+        <input type="email" placeholder="Email" required pattern="^.+@[^\.].*\.[a-z]{2,}$" />
+        <input type="text" placeholder="Subject" required />
+        <textarea placeholder="Message" required></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </footer>
 
     <template id="template">
       <p>
@@ -183,7 +199,7 @@
           <img src="" alt="" />
         </div>
         <section>
-          <button>
+          <button class="recipe-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -202,17 +218,8 @@
               <path d="M11 12h1v4h1" />
             </svg>
           </button>
-          <!-- <button>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="icon icon-tabler icons-tabler-outline icon-tabler-square-rounded-x">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M10 10l4 4m0 -4l-4 4" />
-            <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
-          </svg>
-        </button> -->
         </section>
-        <textarea readonly hidden></textarea>
+        <textarea class="recipe-description" readonly hidden></textarea>
       </div>
     </template>
   </body>
