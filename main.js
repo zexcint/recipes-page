@@ -1,6 +1,10 @@
 import {
+  getFullDetailsById,
+  getIngredients,
+  getCategoryId,
   getCategoryName,
   getCategoryThumb,
+  getDetailsById,
   setCategoryId,
   setCategoryName,
   setCategoryThumb,
@@ -19,6 +23,7 @@ const $ = (element) => document.querySelector(element);
 const $$ = (elements) => document.querySelectorAll(elements);
 
 const element = {
+  MAIN_SECTION: ".main-section",
   RECIPES: ".recipes",
   CARDS: ".cards",
   NAVBAR: ".navbar",
@@ -26,13 +31,15 @@ const element = {
   TOGGLE_CARD_BTN: ".toggleCardBtn",
   RECIPE_BTN: ".recipe-btn",
   NAV_BTN: ".navBtn",
+  RECIPE_PREPARATION: ".recipePreparation",
 };
 
-const listOfClass = {
+const classLists = {
   CARDS_SWITCH_MODE: "cardsSwitchMode",
   JS_SHOW: "js-show",
   JS_HIDE: "js-hide",
-}
+  MAIN_SECTION: "main-section",
+};
 
 const createFragment = (count) => {
   const arr = [];
@@ -43,13 +50,42 @@ const createFragment = (count) => {
   return arr;
 };
 
+const showLoading = (ms) => {
+  return new Promise((resolve) => {
+    $(element.LOADING).hidden = false;
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+};
+
+const timeOut = (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+};
+
 const resetAllStates = () => {
   resetAllCategories();
   resetStates();
   btn_prev.disabled = true;
   $(element.RECIPES).innerHTML = "";
-  $(element.RECIPES).classList.add(listOfClass.JS_HIDE);
-  $(element.NAVBAR).classList.add(listOfClass.JS_HIDE);
+  $(element.RECIPES).classList.add(classLists.JS_HIDE);
+  $(element.NAVBAR).classList.add(classLists.JS_HIDE);
+
+  if ($(`${element.RECIPE_PREPARATION} > h2`).textContent !== "") {
+    $(`${element.RECIPE_PREPARATION} > h2`).textContent = "";
+    $(`${element.RECIPE_PREPARATION} > textarea`).value = "";
+    $(`${element.RECIPE_PREPARATION} > aside > span.thumb > img`).src = "";
+    $(`${element.RECIPE_PREPARATION} > aside > span.category`).textContent = "";
+    $(`${element.RECIPE_PREPARATION} > aside > span.area`).textContent = "";
+    $(`${element.RECIPE_PREPARATION} > aside > span.tags`).textContent = "";
+    $(`${element.RECIPE_PREPARATION} > aside > span.ytb > a`).href = "";
+    $(`${element.RECIPE_PREPARATION} > ol`).innerHTML = "";
+    $(element.RECIPE_PREPARATION).classList.add(classLists.JS_HIDE);
+  }
 };
 
 const displayCategories = () => {
@@ -104,14 +140,11 @@ const displayCategories = () => {
 };
 
 const setCategory = () => {
-  // const categoriesOptions = Array.from(
-  //   document.querySelectorAll(".cards")
-  // ).flatMap((element) => Array.from(element.querySelectorAll("a")));
-
   const categoriesOptions = $$(`${element.CARDS} > div > a`);
 
   categoriesOptions.forEach((element) => {
-    element.addEventListener("click", (event) => {
+    element.addEventListener("click", async (event) => {
+      timeOut(1000)
       // reset
       resetAllStates();
 
@@ -191,7 +224,7 @@ const displayInfoCategory = () => {
       const parent = target.closest("div");
       const textarea = parent.lastElementChild;
       textarea.hidden = textarea.hidden === false;
-      parent.classList.toggle(listOfClass.CARDS_SWITCH_MODE);
+      parent.classList.toggle(classLists.CARDS_SWITCH_MODE);
     });
   });
 };
@@ -203,39 +236,113 @@ const run = async () => {
   // await getIngredients()
   handleCardNavigation();
   displayInfoCategory();
-};
+
+  const buttons = $$(element.NAV_BTN);
+  const config = {
+    childList: true,
+    subtree: true,
+    characterData: true,
+  };
+
+  const observer = new MutationObserver(async (event) => {
+    if (event[0].target.parentElement.className === classLists.MAIN_SECTION) {
+      await showLoading(1000);
+
+      $(element.LOADING).hidden = true;
+      $(element.RECIPES).classList.remove(classLists.JS_HIDE);
+      $(element.NAVBAR).classList.remove(classLists.JS_HIDE);
+
+      $$(`${element.RECIPES} > article`).forEach((article) => {
+        article.addEventListener("click", async (event) => {
+          const target = event.currentTarget.textContent.trim();
+          const id = getCategoryName().indexOf(target);
+          await getFullDetailsById(getCategoryId()[id]);
+          displayPreparation();
+        });
+      });
+    }
+  });
+
+  observer.observe($(element.MAIN_SECTION), config);
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      $(element.LOADING).hidden = false;
+      $(element.RECIPES).classList.add(classLists.JS_HIDE);
+      $(element.NAVBAR).classList.add(classLists.JS_HIDE);
+
+      await timeOut(1000);
+
+      $(element.LOADING).hidden = true;
+      $(element.RECIPES).classList.remove(classLists.JS_HIDE);
+      $(element.NAVBAR).classList.remove(classLists.JS_HIDE);
+    });
+  });
+
+  $(`${element.RECIPE_PREPARATION} > button > svg`).addEventListener(
+    "click",
+    async () => {
+      $(element.RECIPE_PREPARATION).classList.add("closeTab");
+      await timeOut(250);
+      $(element.RECIPE_PREPARATION).classList.remove("closeTab");
+      $(element.RECIPE_PREPARATION).classList.add(classLists.JS_HIDE);
+      $(element.RECIPES).classList.remove(classLists.JS_HIDE);
+      $(element.NAVBAR).classList.remove(classLists.JS_HIDE);
+    }
+  );
+
+  const displayPreparation = () => {
+    $(element.RECIPES).classList.add(classLists.JS_HIDE);
+    $(element.NAVBAR).classList.add(classLists.JS_HIDE);
+    $(element.RECIPE_PREPARATION).classList.remove(classLists.JS_HIDE);
+
+    const fragment = createFragment(1)[0];
+
+    $(`${element.RECIPE_PREPARATION} > h2`).textContent =
+      getDetailsById().strMeal;
+
+    $(`${element.RECIPE_PREPARATION} > textarea`).value =
+      getDetailsById().strInstructions;
+
+    $(`${element.RECIPE_PREPARATION} > aside > span > img`).src =
+      getDetailsById().strMealThumb;
+
+    $(`${element.RECIPE_PREPARATION} > aside > span.category`).textContent =
+      getDetailsById().strCategory ?? "empity";
+
+    $(`${element.RECIPE_PREPARATION} > aside > span.area`).textContent =
+      getDetailsById().strArea  ?? "empity";
+
+    $(`${element.RECIPE_PREPARATION} > aside > span.tags`).textContent =
+      getDetailsById().strTags ?? "empity";
+
+    $(`${element.RECIPE_PREPARATION} > aside > span.ytb > a`).href =
+      getDetailsById().strYoutube;
+
+    const arr = Object.entries(getDetailsById());
+    const ingredient = arr.filter(
+      (elm) =>
+        elm[0].startsWith("strIngredient") &&
+        elm[1] !== "" &&
+        elm[1] !== " " &&
+        elm[1] !== null
+    );
+    const measure = arr.filter(
+      (elm) =>
+        elm[0].startsWith("strMeasure") &&
+        elm[1] !== "" &&
+        elm[1] !== " " &&
+        elm[1] !== null
+    );
+
+    for (let index = 0; index < ingredient.length; index++) {
+      const li = document.createElement("li");
+      li.textContent = `${ingredient[index][1]} / ${measure[index][1]}`;
+      fragment.append(li);
+    }
+
+    $(`${element.RECIPE_PREPARATION} > ol`).append(fragment);
+  };
+}; // end
 
 run();
-
-const buttons = $$(element.NAV_BTN);
-const config = {
-  childList: true,
-};
-
-const observer = new MutationObserver((MutationRecords) => {
-  // console.log(MutationRecords[0]);
-  if (MutationRecords[0].addedNodes.length > 0) {
-    $(element.LOADING).hidden = false;
-    setTimeout(() => {
-      $(element.LOADING).hidden = true;
-      $(element.RECIPES).classList.remove(listOfClass.JS_HIDE);
-      $(element.NAVBAR).classList.remove(listOfClass.JS_HIDE);
-    }, 2000);
-  }
-});
-
-observer.observe($(".recipes"), config);
-
-buttons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    $(element.RECIPES).classList.add(listOfClass.JS_HIDE);
-    $(element.NAVBAR).classList.add(listOfClass.JS_HIDE);
-    $(element.LOADING).hidden = false;
-
-    setTimeout(() => {
-      $(element.LOADING).hidden = true;
-      $(element.RECIPES).classList.remove(listOfClass.JS_HIDE);
-      $(element.NAVBAR).classList.remove(listOfClass.JS_HIDE);
-    }, 2000);
-  });
-});

@@ -1,9 +1,11 @@
 export {
+  getFullDetailsById,
   getCategories,
   getIngredients,
   getCategoryId,
   getCategoryName,
   getCategoryThumb,
+  getDetailsById,
   setCategoryId,
   setCategoryName,
   setCategoryThumb,
@@ -19,7 +21,7 @@ const URL = {
   CATEGORIES: "https://www.themealdb.com/api/json/v1/1/categories.php",
   BY_CATEGORY: "https://www.themealdb.com/api/json/v1/1/filter.php?c=",
   INGREDIENTS: "https://www.themealdb.com/api/json/v1/1/list.php?i=list",
-  FILTER_BY_INGREDIENT: "https://www.themealdb.com/api/json/v1/1/filter.php?i=",
+  FILTER_BY_ID: "https://www.themealdb.com/api/json/v1/1/lookup.php?i=",
   THUMB_INGREDIENT: "https://www.themealdb.com/images/ingredients/",
 };
 
@@ -28,6 +30,7 @@ const categoriesId = [];
 const categories = [];
 const categoriesDescription = [];
 const categoriesThumb = [];
+const detailsById = [];
 
 // Single Category
 let categoryId = [];
@@ -37,6 +40,7 @@ let categoryThumb = [];
 const getCategoryId = () => categoryId;
 const getCategoryName = () => categoryName;
 const getCategoryThumb = () => categoryThumb;
+const getDetailsById = () => detailsById[0];
 
 const setCategoryId = (prop) => categoryId.push(prop);
 const setCategoryName = (prop) => categoryName.push(prop);
@@ -100,5 +104,20 @@ const getIngredients = async () => {
     }
   } catch (error) {
     console.error("getIngredients", error);
+  }
+};
+
+const getFullDetailsById = async (id) => {
+  try {
+    const response = await fetch(URL.FILTER_BY_ID + id);
+    const data = await response.json();
+    if (data) {
+      // reset
+      detailsById.length = 0;
+
+      detailsById.push(data.meals[0]);
+    }
+  } catch (error) {
+    console.error("getDetailIngredientsById", error);
   }
 };
