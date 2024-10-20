@@ -6,6 +6,7 @@ export {
   getCategoryName,
   getCategoryThumb,
   getDetailsById,
+  getFlags,
   setCategoryId,
   setCategoryName,
   setCategoryThumb,
@@ -119,5 +120,17 @@ const getFullDetailsById = async (id) => {
     }
   } catch (error) {
     console.error("getDetailIngredientsById", error);
+  }
+};
+
+const getFlags = async () => {
+  try {
+    const response = await fetch("./country_code.json");
+    const data = await response.json();
+    if (data) {
+      return data
+    }
+  } catch (error) {
+    console.error("getFlags", error);
   }
 };

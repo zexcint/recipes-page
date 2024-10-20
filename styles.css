@@ -17,7 +17,7 @@
     rgba(255, 255, 255, 0.05) 0%,
     #b7b7b7 100%
   );
-  --text-color: #333333;
+  --text-color: #222222;
   --transparent-color: rgba(0, 0, 0, 0.1);
   --accent-color: #640d5f;
   --button-color: #ab886d;
@@ -223,12 +223,6 @@ footer > form > button:hover {
   color: var(--text-color);
 }
 
-.categories > section:first-child > div > img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
 /* ===== category cards ===== */
 .category-cards {
   display: flex;
@@ -249,12 +243,6 @@ footer > form > button:hover {
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: minmax(200px, 1fr);
   gap: 16px;
-  transition: opacity 250ms ease;
-}
-
-.cards:hover > :not(:hover),
-.cards:active > :not(:active) {
-  opacity: 0.5;
 }
 
 .cards:nth-of-type(2),
@@ -271,6 +259,11 @@ footer > form > button:hover {
   border-radius: 6px;
   background: var(--main-color);
   box-shadow: 0 4px 6px 0 var(--shadow-color);
+  transition: box-shadow 250ms ease-in-out;
+}
+
+.cards > div:hover {
+  box-shadow: 0 4px 6px 0 var(--accent-color);
 }
 
 .cards > div > a {
@@ -297,6 +290,7 @@ footer > form > button:hover {
   object-fit: contain;
   transform: scale(0.5);
   transition: transform 250ms ease-in-out;
+  aspect-ratio: 1;
 }
 
 .cards > div > a > div > img:hover,
@@ -320,15 +314,12 @@ footer > form > button:hover {
   border: none;
   background: none;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .cards > div > section > button > svg {
   color: var(--accent-color);
   transition: transform 250ms ease-in-out;
-}
-
-.cards > div > section > button:hover {
-  cursor: pointer;
 }
 
 .cards > div > section > button:hover > svg {
@@ -372,11 +363,12 @@ footer > form > button:hover {
 /* ===== show more options ===== */
 .showMoreoptions {
   display: flex;
+  justify-content: space-between;
   gap: 4px;
 }
 
 .showMoreoptions > button {
-  flex-basis: 100%;
+  flex-basis: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -391,9 +383,11 @@ footer > form > button:hover {
 
 .showMoreoptions > button > svg {
   transform: scale(0.8);
-  transition: transform 250ms ease-in-out;
+  transition: transform 250ms ease-in-out, color 250ms ease-in-out;
 }
+
 .showMoreoptions > button:enabled:hover > svg {
+  color: var(--accent-color);
   transform: scale(1);
 }
 
@@ -419,6 +413,7 @@ footer > form > button:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-auto-rows: 1fr;
+  align-items: center;
   gap: 16px;
   transition: opacity 250ms ease;
 }
@@ -426,49 +421,46 @@ footer > form > button:hover {
 .recipes > article {
   display: flex;
   align-items: start;
+  aspect-ratio: 1;
   border-radius: 6px;
+  cursor: pointer;
   box-shadow: 0 4px 6px 0 var(--shadow-color);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  cursor: pointer;
-  height: 200px;
-  box-shadow: 0 4px 6px 0 transparent;
-  transition: box-shadow 250ms ease-in-out;
+  opacity: 0.8;
+  transition: box-shadow 250ms ease-in-out, opacity 250ms ease-in-out;
 }
 
 .recipes > article > span {
-  display: block;
+  /* display: block; */
   width: 100%;
   padding: 8px;
   border-radius: 6px 6px 0 0;
-  font-weight: bold;
   overflow: hidden;
+  font-weight: bold;
   white-space: nowrap;
   text-overflow: ellipsis;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(100px);
   color: var(--text-color);
-  transition: backdrop-filter 250ms ease-in-out;
+  transition: backdrop-filter 250ms ease-in-out, color 250ms ease-in-out;
 }
 
 .recipes > article:hover {
   box-shadow: 0 4px 6px 0 var(--accent-color);
+  opacity: 1;
 }
 
 .recipes > article:hover > span {
   backdrop-filter: blur(0px);
-}
-
-.recipes:hover > :not(:hover),
-.recipes:active > :not(:active) {
-  opacity: 0.5;
+  color: transparent;
 }
 
 /* ===== preparation ===== */
 .recipePreparation {
   display: grid;
-  grid-template-columns: 1fr 20%;
-  grid-template-rows: repeat(2, auto) repeat(2, minmax(200px, 400px));
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, auto) repeat(2, minmax(200px, 400px));
   gap: 4px;
   padding: 4px;
   width: 100%;
@@ -498,23 +490,37 @@ footer > form > button:hover {
 }
 
 .recipePreparation > ol {
-  grid-row: 3;
-  display: flex;
-  flex-direction: column;
-  padding-left: 15%;
+  grid-row: 4;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
   gap: 4px;
+  padding: 4px;
   overflow: auto;
   box-shadow: inset 0 0 0 2px var(--shadow-color);
+  /* scrollbar-width: none; */
 }
 
 .recipePreparation > ol > li {
-  padding: 4px;
+  list-style: none;
+  /* list-style-position: inside; */
+  font-size: clamp(0.75rem, 0.525rem + 1vw, 1rem);
   font-weight: 600;
   background: var(--transparent-color);
 }
 
+/* .recipePreparation > ol > div {
+  width: 40px;
+  height: 40px;
+} */
+
+/* .recipePreparation > ol > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+} */
+
 .recipePreparation > textarea {
-  grid-column: 1 / span 2;
+  /* grid-column: 1 / span 2; */
   width: 100%;
   height: 100%;
   resize: none;
@@ -528,7 +534,7 @@ footer > form > button:hover {
 
 .recipePreparation > button {
   grid-row: 1;
-  grid-column: 2;
+  /* grid-column: 2; */
   justify-self: end;
   display: flex;
   justify-content: center;
@@ -551,24 +557,37 @@ footer > form > button:hover {
 .recipePreparation > aside {
   grid-row: 3;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   gap: 4px;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .recipePreparation > aside > span {
   display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: center; */
+  gap: 4px;
   flex-basis: 100%;
   overflow-wrap: anywhere;
   overflow: auto;
-  font-size: 12px;
   background: var(--transparent-color);
 }
 
-.recipePreparation > aside > span:last-of-type {
+.recipePreparation > aside > span > p {
+  font-size: clamp(0.5rem, 0.05rem + 2vw, 1rem);
+}
+
+.recipePreparation > aside > span > p:first-of-type {
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--accent-color);
+}
+
+/* .recipePreparation > aside > span:last-of-type {
   justify-content: center;
   align-items: center;
-}
+} */
 
 .recipePreparation > aside > span > a {
   display: flex;
@@ -579,8 +598,8 @@ footer > form > button:hover {
 .recipePreparation > aside > span > img {
   width: 100%;
   height: 100%;
-  object-fit: fill;
-  box-shadow: inset 0 0 0 1px #000000;
+  object-fit: contain;
+  aspect-ratio: 1;
 }
 
 /* .recipePreparation:has(span:hover, img:hover, span:active, img:active) {
@@ -604,6 +623,7 @@ footer > form > button:hover {
   border-radius: 4px;
   background: var(--button-color);
   color: var(--button-text-color);
+  cursor: pointer;
   transition: background 250ms ease-in-out;
 }
 
@@ -611,14 +631,12 @@ footer > form > button:hover {
   width: 100%;
   height: 100%;
   transform: scale(0.8);
-  transition: transform 250ms ease-in-out;
+  transition: transform 250ms ease-in-out, color 250ms ease-in-out;
 }
 
-.navBtn:enabled:hover {
-  cursor: pointer;
-}
-
-.navBtn:enabled:hover > svg {
+.navBtn:enabled:hover > svg,
+.navBtn:enabled:active > svg {
+  color: var(--accent-color);
   transform: scale(1);
 }
 

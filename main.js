@@ -5,11 +5,12 @@ import {
   getCategoryName,
   getCategoryThumb,
   getDetailsById,
+  getCategories,
+  getFlags,
   setCategoryId,
   setCategoryName,
   setCategoryThumb,
   resetAllCategories,
-  getCategories,
   categories,
   categoriesThumb,
   categoriesDescription,
@@ -75,13 +76,23 @@ const resetAllStates = () => {
   $(element.RECIPES).classList.add(classLists.JS_HIDE);
   $(element.NAVBAR).classList.add(classLists.JS_HIDE);
 
+  $$(`${element.CARDS} div.cardsSwitchMode`).forEach((elm) => {
+    elm.lastElementChild.hidden = true;
+    elm.classList.remove("cardsSwitchMode");
+  });
+
   if ($(`${element.RECIPE_PREPARATION} > h2`).textContent !== "") {
     $(`${element.RECIPE_PREPARATION} > h2`).textContent = "";
     $(`${element.RECIPE_PREPARATION} > textarea`).value = "";
     $(`${element.RECIPE_PREPARATION} > aside > span.thumb > img`).src = "";
-    $(`${element.RECIPE_PREPARATION} > aside > span.category`).textContent = "";
-    $(`${element.RECIPE_PREPARATION} > aside > span.area`).textContent = "";
-    $(`${element.RECIPE_PREPARATION} > aside > span.tags`).textContent = "";
+    $(
+      `${element.RECIPE_PREPARATION} > aside > span.category > p + p`
+    ).textContent = "";
+    $(`${element.RECIPE_PREPARATION} > aside > span.area > p + p`).textContent =
+      "";
+    // $(`${element.RECIPE_PREPARATION} > aside > span.area`).innerHTML = "";
+    $(`${element.RECIPE_PREPARATION} > aside > span.tags > p + p`).textContent =
+      "";
     $(`${element.RECIPE_PREPARATION} > aside > span.ytb > a`).href = "";
     $(`${element.RECIPE_PREPARATION} > ol`).innerHTML = "";
     $(element.RECIPE_PREPARATION).classList.add(classLists.JS_HIDE);
@@ -144,7 +155,7 @@ const setCategory = () => {
 
   categoriesOptions.forEach((element) => {
     element.addEventListener("click", async (event) => {
-      timeOut(1000)
+      timeOut(1000);
       // reset
       resetAllStates();
 
@@ -236,6 +247,7 @@ const run = async () => {
   // await getIngredients()
   handleCardNavigation();
   displayInfoCategory();
+  // getIngredients()
 
   const buttons = $$(element.NAV_BTN);
   const config = {
@@ -291,12 +303,23 @@ const run = async () => {
     }
   );
 
-  const displayPreparation = () => {
+  const displayPreparation = async () => {
+    const json = await getFlags();
+    const fragment = createFragment(1)[0];
+
     $(element.RECIPES).classList.add(classLists.JS_HIDE);
     $(element.NAVBAR).classList.add(classLists.JS_HIDE);
     $(element.RECIPE_PREPARATION).classList.remove(classLists.JS_HIDE);
 
-    const fragment = createFragment(1)[0];
+    // // reset
+    // $(`${element.RECIPE_PREPARATION} > h2`).textContent = ""
+    // $(`${element.RECIPE_PREPARATION} > textarea`).value = ""
+    // $(`${element.RECIPE_PREPARATION} > aside > span > img`).src = ""
+    // $(`${element.RECIPE_PREPARATION} > aside > span.category > p + p`).textContent =" "
+    // $(`${element.RECIPE_PREPARATION} > aside > span.area > p + p`).textContent = ""
+    // $(`${element.RECIPE_PREPARATION} > aside > span.tags > p + p`).textContent = ""
+    // $(`${element.RECIPE_PREPARATION} > aside > span.ytb > a`).href = ""
+    // // end
 
     $(`${element.RECIPE_PREPARATION} > h2`).textContent =
       getDetailsById().strMeal;
@@ -307,26 +330,38 @@ const run = async () => {
     $(`${element.RECIPE_PREPARATION} > aside > span > img`).src =
       getDetailsById().strMealThumb;
 
-    $(`${element.RECIPE_PREPARATION} > aside > span.category`).textContent =
-      getDetailsById().strCategory ?? "empity";
+    $(
+      `${element.RECIPE_PREPARATION} > aside > span.category > p + p`
+    ).textContent = getDetailsById().strCategory ?? "empity";
 
-    $(`${element.RECIPE_PREPARATION} > aside > span.area`).textContent =
-      getDetailsById().strArea  ?? "empity";
+    $(`${element.RECIPE_PREPARATION} > aside > span.area > p + p`).textContent =
+      getDetailsById().strArea ?? "empity";
 
-    $(`${element.RECIPE_PREPARATION} > aside > span.tags`).textContent =
+    $(`${element.RECIPE_PREPARATION} > aside > span.tags > p + p`).textContent =
       getDetailsById().strTags ?? "empity";
 
     $(`${element.RECIPE_PREPARATION} > aside > span.ytb > a`).href =
       getDetailsById().strYoutube;
 
+    for (let index = 0; index < json.flags.length; index++) {
+      if (json.flags[index].hasOwnProperty(getDetailsById().strArea)) {
+        $(
+          `${element.RECIPE_PREPARATION} > aside > span.area > p + p`
+        ).textContent += ` ${json.flags[index][getDetailsById().strArea]}`;
+        break;
+      }
+    }
+
     const arr = Object.entries(getDetailsById());
-    const ingredient = arr.filter(
+
+    const arr2 = arr.filter(
       (elm) =>
         elm[0].startsWith("strIngredient") &&
         elm[1] !== "" &&
         elm[1] !== " " &&
         elm[1] !== null
     );
+
     const measure = arr.filter(
       (elm) =>
         elm[0].startsWith("strMeasure") &&
@@ -335,12 +370,23 @@ const run = async () => {
         elm[1] !== null
     );
 
+    const ingredient = Array.from(new Set(arr2.map((elm) => elm[1])));
+
     for (let index = 0; index < ingredient.length; index++) {
       const li = document.createElement("li");
-      li.textContent = `${ingredient[index][1]} / ${measure[index][1]}`;
-      fragment.append(li);
+      const img = document.createElement("img");
+
+      li.textContent = `${ingredient?.[index]} - ${measure?.[index]?.[1]}`;
+      img.src = `${URL.THUMB_INGREDIENT}${ingredient?.[index]}-Small.png`;
+
+      if (li.textContent.includes("undefined")) {
+        li.textContent = li.textContent.replace("undefined", "");
+      }
+
+      fragment.append(li, img);
     }
 
+    $(`${element.RECIPE_PREPARATION} > ol`).innerHTML = ""
     $(`${element.RECIPE_PREPARATION} > ol`).append(fragment);
   };
 }; // end

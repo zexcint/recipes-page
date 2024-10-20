@@ -2,5 +2,6 @@
 search
 add shared options
 add favorite
+add wiki ingredients
 
 // complete
