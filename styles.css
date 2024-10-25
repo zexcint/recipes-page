@@ -62,48 +62,96 @@ header > h2 {
   font-size: 1rem;
 }
 
-header > nav > fieldset {
-  display: flex;
-  padding-top: 50px;
+header > nav {
+  width: 100%;
+  /* border: 1px solid red; */
+}
+
+/* start */
+header > nav > form > fieldset {
+  /* display: flex; */
   border: 0;
 }
 
-header > nav > fieldset > legend {
-  font-size: 12px;
-  font-weight: 300;
+fieldset.containerSearch {
+  /* flex-wrap: wrap; */
+  display: grid;
+  grid-template-areas: "search btn1 btn2"
+                         "result result result";
+                         grid-auto-rows: 1fr;
+                         grid-template-columns: 1fr auto auto;
+                         width: 360px;
+                         margin: auto;
 }
 
-header > nav > fieldset > input {
-  padding: 8px;
+fieldset.containerSearch > input {
+  grid-area: search;
   border: 0;
   outline: 0;
+  padding: 8px;
   background: var(--transparent-color);
-}
-
-header > nav > fieldset > input:focus {
   color: var(--text-color);
 }
 
-header > nav > fieldset > input::placeholder {
+header > nav > form > fieldset > input::placeholder {
   font-weight: 600;
   color: var(--placeholder-color);
 }
 
-header > nav > fieldset > button {
+fieldset.containerSearch > select {
+  grid-area: result;
+  /* order: 1; */
+  outline: 0;
+  border: 0;
+  padding: 8px;
+  box-shadow: inset 0 1px 0 0 var(--shadow-color);
+  background: var(--transparent-color);
+  color: var(--text-color);
+}
+
+fieldset.containerSearch > button {
   display: flex;
   justify-content: center;
   align-items: center;
   border: 0;
-  padding-left: 4px;
+  padding: 4px;
   cursor: pointer;
-  color: var(--text-color);
-  background: var(--transparent-color);
   box-shadow: inset 2px 0 0 0 var(--accent-color);
+  background: var(--transparent-color);
+  color: var(--text-color);
 }
 
-header > nav > fieldset > button:hover {
+fieldset.containerSearch > button:first-of-type {
+  grid-area: btn1;
+}
+
+fieldset.containerSearch > button:last-of-type {
+  grid-area: btn2;
+}
+
+header > nav > form > fieldset > button:hover {
   background: rgba(0, 0, 0, 0.15);
 }
+
+fieldset.containerFilterBy {
+  display: flex;
+  gap: 4px;
+  width: 360px;
+  margin: auto;
+}
+
+fieldset.containerFilterBy > label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 50%;
+  gap: 4px;
+  padding: 4px;
+  box-shadow: inset 0 0 0 1px var(--accent-color);
+  text-transform: capitalize;
+}
+
+/* end */
 
 /* ===== body ===== */
 body {
@@ -574,6 +622,11 @@ footer > form > button:hover {
   background: var(--transparent-color);
 }
 
+.recipePreparation > aside > span:last-of-type {
+  justify-content: center;
+  align-items: center;
+}
+
 .recipePreparation > aside > span > p {
   font-size: clamp(0.5rem, 0.05rem + 2vw, 1rem);
 }
@@ -665,6 +718,10 @@ footer > form > button:hover {
   width: 200px;
   height: 200px;
   animation: loading 1s linear infinite;
+}
+
+.hideElm {
+  visibility: hidden;
 }
 
 /* ===== animations ===== */

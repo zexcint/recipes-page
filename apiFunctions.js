@@ -11,6 +11,8 @@ export {
   setCategoryName,
   setCategoryThumb,
   resetAllCategories,
+  resetCategoryId,
+  resetCategoryName,
   categoriesId,
   categories,
   categoriesDescription,
@@ -53,6 +55,9 @@ const resetAllCategories = () => {
   categoryName = [];
   categoryThumb = [];
 };
+
+const resetCategoryId = () => (categoryId = []);
+const resetCategoryName = () => (categoryName = []);
 
 // All Ingredients
 const ingredientsId = [];
@@ -128,7 +133,7 @@ const getFlags = async () => {
     const response = await fetch("./country_code.json");
     const data = await response.json();
     if (data) {
-      return data
+      return data;
     }
   } catch (error) {
     console.error("getFlags", error);

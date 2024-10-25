@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="data:," />
     <script type="module" src="main.js"></script>
+    <script type="module" src="searchRecipes.js"></script>
     <script type="module" src="./navBar.js"></script>
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -18,33 +19,71 @@
   </head>
 
   <body>
-    <!-- <header>
+    <header>
       <h1>The Recipe Box</h1>
       <h2>Discover Delicious New Favorites</h2>
       <nav>
-        <fieldset>
-          <input type="search" autofocus placeholder="Search..." />
-          <button type="search-btn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-search"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-              <path d="M21 21l-6 -6" />
-            </svg>
-          </button>
-        </fieldset>
+        <form>
+          <fieldset class="containerSearch">
+            <input type="search" autofocus placeholder="Search..." />
+            <select class="hideElm"></select>
+
+            <button type="submit" class="search-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-search"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                <path d="M21 21l-6 -6" />
+              </svg>
+            </button>
+            <button type="submit" class="filter-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-settings"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path
+                  d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"
+                />
+                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+              </svg>
+            </button>
+          </fieldset>
+
+          <!-- <div ></div> -->
+            <!-- <span></span> -->
+
+            <fieldset class="containerFilterBy hideElm">
+              <legend>Filter by:</legend>
+              <label
+                >name<input type="radio" name="options" value="name" checked
+              /></label>
+              <label
+                >letter<input type="radio" name="options" value="letter"
+              /></label>
+            </fieldset>
+
+        </form>
       </nav>
-    </header> -->
+    </header>
     <main>
       <div class="container">
         <section class="categories">
@@ -273,6 +312,7 @@
         </section>
         <textarea class="recipe-description" readonly hidden></textarea>
       </div>
+      <option value="" disabled selected>results:</option>
     </template>
   </body>
 </html>

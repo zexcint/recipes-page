@@ -1,3 +1,6 @@
+export { displayRecipes, createFragment,resetRecipePreparation, domElements, classLists, $, $$ };
+
+import { template, btn_prev, btn_next } from "./globalVar.js";
 import {
   getFullDetailsById,
   getIngredients,
@@ -16,14 +19,14 @@ import {
   categoriesDescription,
   URL,
 } from "./apiFunctions.js";
+import { displayPreparation } from "./displayPreparation.js";
 import { createCard } from "./setCards.js";
-import { template, btn_prev, btn_next } from "./globalVar.js";
 import { resetStates } from "./navBar.js";
 
 const $ = (element) => document.querySelector(element);
 const $$ = (elements) => document.querySelectorAll(elements);
 
-const element = {
+const domElements = {
   MAIN_SECTION: ".main-section",
   RECIPES: ".recipes",
   CARDS: ".cards",
@@ -53,7 +56,7 @@ const createFragment = (count) => {
 
 const showLoading = (ms) => {
   return new Promise((resolve) => {
-    $(element.LOADING).hidden = false;
+    $(domElements.LOADING).hidden = false;
     setTimeout(() => {
       resolve();
     }, ms);
@@ -72,36 +75,38 @@ const resetAllStates = () => {
   resetAllCategories();
   resetStates();
   btn_prev.disabled = true;
-  $(element.RECIPES).innerHTML = "";
-  $(element.RECIPES).classList.add(classLists.JS_HIDE);
-  $(element.NAVBAR).classList.add(classLists.JS_HIDE);
+  $(domElements.RECIPES).innerHTML = "";
+  $(domElements.RECIPES).classList.add(classLists.JS_HIDE);
+  $(domElements.NAVBAR).classList.add(classLists.JS_HIDE);
 
-  $$(`${element.CARDS} div.cardsSwitchMode`).forEach((elm) => {
+  $$(`${domElements.CARDS} div.cardsSwitchMode`).forEach((elm) => {
     elm.lastElementChild.hidden = true;
     elm.classList.remove("cardsSwitchMode");
   });
 
-  if ($(`${element.RECIPE_PREPARATION} > h2`).textContent !== "") {
-    $(`${element.RECIPE_PREPARATION} > h2`).textContent = "";
-    $(`${element.RECIPE_PREPARATION} > textarea`).value = "";
-    $(`${element.RECIPE_PREPARATION} > aside > span.thumb > img`).src = "";
+  if ($(`${domElements.RECIPE_PREPARATION} > h2`).textContent !== "") {
+    $(`${domElements.RECIPE_PREPARATION} > h2`).textContent = "";
+    $(`${domElements.RECIPE_PREPARATION} > textarea`).value = "";
+    $(`${domElements.RECIPE_PREPARATION} > aside > span.thumb > img`).src = "";
     $(
-      `${element.RECIPE_PREPARATION} > aside > span.category > p + p`
+      `${domElements.RECIPE_PREPARATION} > aside > span.category > p + p`
     ).textContent = "";
-    $(`${element.RECIPE_PREPARATION} > aside > span.area > p + p`).textContent =
-      "";
-    // $(`${element.RECIPE_PREPARATION} > aside > span.area`).innerHTML = "";
-    $(`${element.RECIPE_PREPARATION} > aside > span.tags > p + p`).textContent =
-      "";
-    $(`${element.RECIPE_PREPARATION} > aside > span.ytb > a`).href = "";
-    $(`${element.RECIPE_PREPARATION} > ol`).innerHTML = "";
-    $(element.RECIPE_PREPARATION).classList.add(classLists.JS_HIDE);
+    $(
+      `${domElements.RECIPE_PREPARATION} > aside > span.area > p + p`
+    ).textContent = "";
+    // $(`${domElements.RECIPE_PREPARATION} > aside > span.area`).innerHTML = "";
+    $(
+      `${domElements.RECIPE_PREPARATION} > aside > span.tags > p + p`
+    ).textContent = "";
+    $(`${domElements.RECIPE_PREPARATION} > aside > span.ytb > a`).href = "";
+    $(`${domElements.RECIPE_PREPARATION} > ol`).innerHTML = "";
+    $(domElements.RECIPE_PREPARATION).classList.add(classLists.JS_HIDE);
   }
 };
 
 const displayCategories = () => {
   const [f1, f2, f3, f4] = createFragment(4);
-  const [card1, card2, card3, card4] = $$(element.CARDS);
+  const [card1, card2, card3, card4] = $$(domElements.CARDS);
 
   for (const [index, value] of categories.entries()) {
     const container = template[2].cloneNode(true);
@@ -151,7 +156,7 @@ const displayCategories = () => {
 };
 
 const setCategory = () => {
-  const categoriesOptions = $$(`${element.CARDS} > div > a`);
+  const categoriesOptions = $$(`${domElements.CARDS} > div > a`);
 
   categoriesOptions.forEach((element) => {
     element.addEventListener("click", async (event) => {
@@ -180,28 +185,29 @@ const filterByCategory = async (prop) => {
         setCategoryThumb(strMealThumb);
       }
       btn_next.disabled = getCategoryName().length <= 4;
-      displayRecipes(getCategoryName(), 0, 4);
+      displayRecipes(getCategoryName(), getCategoryThumb(), 0, 4);
     }
   } catch (error) {
     console.error("filterByCategory", error);
   }
 };
 
-const displayRecipes = (arr, start, end) => {
+const displayRecipes = (arr, arr2, start, end) => {
   const [fragment] = createFragment(1);
 
   for (let index = start; index < end; index++) {
     if (arr[index] === undefined) {
       break;
     }
-    createCard(arr, getCategoryThumb(), fragment, index);
+    // getCategoryThumb()
+    createCard(arr, arr2, fragment, index);
   }
-  $(element.RECIPES).append(fragment);
+  $(domElements.RECIPES).append(fragment);
 };
 
 const handleCardNavigation = () => {
-  const buttons = $$(element.TOGGLE_CARD_BTN);
-  const cards = $$(element.CARDS);
+  const buttons = $$(domElements.TOGGLE_CARD_BTN);
+  const cards = $$(domElements.CARDS);
   const MAX_CLICK = buttons.length;
   const MIN_CLICK = 0;
   let countClick = 0;
@@ -227,7 +233,7 @@ const handleCardNavigation = () => {
 };
 
 const displayInfoCategory = () => {
-  const buttons = document.querySelectorAll(element.RECIPE_BTN);
+  const buttons = document.querySelectorAll(domElements.RECIPE_BTN);
 
   buttons.forEach((btn) => {
     btn.addEventListener("click", (event) => {
@@ -240,6 +246,8 @@ const displayInfoCategory = () => {
   });
 };
 
+// here
+
 const run = async () => {
   await getCategories();
   displayCategories();
@@ -249,7 +257,7 @@ const run = async () => {
   displayInfoCategory();
   // getIngredients()
 
-  const buttons = $$(element.NAV_BTN);
+  const buttons = $$(domElements.NAV_BTN);
   const config = {
     childList: true,
     subtree: true,
@@ -260,135 +268,69 @@ const run = async () => {
     if (event[0].target.parentElement.className === classLists.MAIN_SECTION) {
       await showLoading(1000);
 
-      $(element.LOADING).hidden = true;
-      $(element.RECIPES).classList.remove(classLists.JS_HIDE);
-      $(element.NAVBAR).classList.remove(classLists.JS_HIDE);
+      $(domElements.LOADING).hidden = true;
+      $(domElements.RECIPES).classList.remove(classLists.JS_HIDE);
+      $(domElements.NAVBAR).classList.remove(classLists.JS_HIDE);
 
-      $$(`${element.RECIPES} > article`).forEach((article) => {
+      $$(`${domElements.RECIPES} > article`).forEach((article) => {
         article.addEventListener("click", async (event) => {
           const target = event.currentTarget.textContent.trim();
           const id = getCategoryName().indexOf(target);
           await getFullDetailsById(getCategoryId()[id]);
           displayPreparation();
+          // console.log(id);
+          // console.log(getCategoryId());
+          // console.log(getDetailsById());
         });
       });
     }
   });
 
-  observer.observe($(element.MAIN_SECTION), config);
+  observer.observe($(domElements.MAIN_SECTION), config);
 
   buttons.forEach((btn) => {
     btn.addEventListener("click", async () => {
-      $(element.LOADING).hidden = false;
-      $(element.RECIPES).classList.add(classLists.JS_HIDE);
-      $(element.NAVBAR).classList.add(classLists.JS_HIDE);
+      $(domElements.LOADING).hidden = false;
+      $(domElements.RECIPES).classList.add(classLists.JS_HIDE);
+      $(domElements.NAVBAR).classList.add(classLists.JS_HIDE);
 
       await timeOut(1000);
 
-      $(element.LOADING).hidden = true;
-      $(element.RECIPES).classList.remove(classLists.JS_HIDE);
-      $(element.NAVBAR).classList.remove(classLists.JS_HIDE);
+      $(domElements.LOADING).hidden = true;
+      $(domElements.RECIPES).classList.remove(classLists.JS_HIDE);
+      $(domElements.NAVBAR).classList.remove(classLists.JS_HIDE);
     });
   });
 
-  $(`${element.RECIPE_PREPARATION} > button > svg`).addEventListener(
+  $(`${domElements.RECIPE_PREPARATION} > button > svg`).addEventListener(
     "click",
     async () => {
-      $(element.RECIPE_PREPARATION).classList.add("closeTab");
+      resetRecipePreparation();
+      $(domElements.RECIPE_PREPARATION).classList.add("closeTab");
       await timeOut(250);
-      $(element.RECIPE_PREPARATION).classList.remove("closeTab");
-      $(element.RECIPE_PREPARATION).classList.add(classLists.JS_HIDE);
-      $(element.RECIPES).classList.remove(classLists.JS_HIDE);
-      $(element.NAVBAR).classList.remove(classLists.JS_HIDE);
+      $(domElements.RECIPE_PREPARATION).classList.remove("closeTab");
+      $(domElements.RECIPE_PREPARATION).classList.add(classLists.JS_HIDE);
+      $(domElements.RECIPES).classList.remove(classLists.JS_HIDE);
+      $(domElements.NAVBAR).classList.remove(classLists.JS_HIDE);
     }
   );
-
-  const displayPreparation = async () => {
-    const json = await getFlags();
-    const fragment = createFragment(1)[0];
-
-    $(element.RECIPES).classList.add(classLists.JS_HIDE);
-    $(element.NAVBAR).classList.add(classLists.JS_HIDE);
-    $(element.RECIPE_PREPARATION).classList.remove(classLists.JS_HIDE);
-
-    // // reset
-    // $(`${element.RECIPE_PREPARATION} > h2`).textContent = ""
-    // $(`${element.RECIPE_PREPARATION} > textarea`).value = ""
-    // $(`${element.RECIPE_PREPARATION} > aside > span > img`).src = ""
-    // $(`${element.RECIPE_PREPARATION} > aside > span.category > p + p`).textContent =" "
-    // $(`${element.RECIPE_PREPARATION} > aside > span.area > p + p`).textContent = ""
-    // $(`${element.RECIPE_PREPARATION} > aside > span.tags > p + p`).textContent = ""
-    // $(`${element.RECIPE_PREPARATION} > aside > span.ytb > a`).href = ""
-    // // end
-
-    $(`${element.RECIPE_PREPARATION} > h2`).textContent =
-      getDetailsById().strMeal;
-
-    $(`${element.RECIPE_PREPARATION} > textarea`).value =
-      getDetailsById().strInstructions;
-
-    $(`${element.RECIPE_PREPARATION} > aside > span > img`).src =
-      getDetailsById().strMealThumb;
-
-    $(
-      `${element.RECIPE_PREPARATION} > aside > span.category > p + p`
-    ).textContent = getDetailsById().strCategory ?? "empity";
-
-    $(`${element.RECIPE_PREPARATION} > aside > span.area > p + p`).textContent =
-      getDetailsById().strArea ?? "empity";
-
-    $(`${element.RECIPE_PREPARATION} > aside > span.tags > p + p`).textContent =
-      getDetailsById().strTags ?? "empity";
-
-    $(`${element.RECIPE_PREPARATION} > aside > span.ytb > a`).href =
-      getDetailsById().strYoutube;
-
-    for (let index = 0; index < json.flags.length; index++) {
-      if (json.flags[index].hasOwnProperty(getDetailsById().strArea)) {
-        $(
-          `${element.RECIPE_PREPARATION} > aside > span.area > p + p`
-        ).textContent += ` ${json.flags[index][getDetailsById().strArea]}`;
-        break;
-      }
-    }
-
-    const arr = Object.entries(getDetailsById());
-
-    const arr2 = arr.filter(
-      (elm) =>
-        elm[0].startsWith("strIngredient") &&
-        elm[1] !== "" &&
-        elm[1] !== " " &&
-        elm[1] !== null
-    );
-
-    const measure = arr.filter(
-      (elm) =>
-        elm[0].startsWith("strMeasure") &&
-        elm[1] !== "" &&
-        elm[1] !== " " &&
-        elm[1] !== null
-    );
-
-    const ingredient = Array.from(new Set(arr2.map((elm) => elm[1])));
-
-    for (let index = 0; index < ingredient.length; index++) {
-      const li = document.createElement("li");
-      const img = document.createElement("img");
-
-      li.textContent = `${ingredient?.[index]} - ${measure?.[index]?.[1]}`;
-      img.src = `${URL.THUMB_INGREDIENT}${ingredient?.[index]}-Small.png`;
-
-      if (li.textContent.includes("undefined")) {
-        li.textContent = li.textContent.replace("undefined", "");
-      }
-
-      fragment.append(li, img);
-    }
-
-    $(`${element.RECIPE_PREPARATION} > ol`).innerHTML = ""
-    $(`${element.RECIPE_PREPARATION} > ol`).append(fragment);
-  };
 }; // end
 
 run();
+
+const resetRecipePreparation = () => {
+  $(`${domElements.RECIPE_PREPARATION} > ol`).innerHTML = "";
+  $(`${domElements.RECIPE_PREPARATION} > h2`).textContent = "";
+  $(`${domElements.RECIPE_PREPARATION} > textarea`).value = "";
+  $(`${domElements.RECIPE_PREPARATION} > aside > span > img`).src = "";
+  $(
+    `${domElements.RECIPE_PREPARATION} > aside > span.category > p + p`
+  ).textContent = " ";
+  $(
+    `${domElements.RECIPE_PREPARATION} > aside > span.area > p + p`
+  ).textContent = "";
+  $(
+    `${domElements.RECIPE_PREPARATION} > aside > span.tags > p + p`
+  ).textContent = "";
+  $(`${domElements.RECIPE_PREPARATION} > aside > span.ytb > a`).href = "";
+};
