@@ -1,32 +1,18 @@
-import { template } from "./globalVar.js";
-import { displayRecipes, resetRecipePreparation, classLists, domElements } from "./main.js";
+import { DOM, CLASS } from "./global.js";
+import { displayRecipes } from "./main.js";
 import {
   URL,
-  getFullDetailsById,
-  getDetailsById,
   setCategoryName,
   setCategoryId,
-  getCategoryName,
   resetCategoryId,
   resetCategoryName,
 } from "./apiFunctions.js";
-import { createCard } from "./setCards.js";
 
-const $ = (element) => document.querySelector(element);
-const $$ = (elements) => document.querySelectorAll(elements);
-const element = {
-  form: "header > nav > form",
-  inputSearch: "form > fieldset > input[type='search']",
-  filterBy: "form > fieldset.containerFilterBy",
-  searchBtn: "button.search-btn",
-  filterBtn: "button.filter-btn",
-  select: "header > nav > form > fieldset > select",
-  input: "input[name='options']",
-  recipes: ".recipes",
-};
+import {resetPreparationValues} from "./displayPreparation.js"
+import {resetStates, getStates} from "./navBar.js"
 
-const message = "Not found";
-const letters = [
+const MESSAGE = "Not found";
+const LETTERS = [
   "a",
   "b",
   "c",
@@ -55,40 +41,40 @@ const letters = [
   "z",
 ];
 
-$$(element.input).forEach((elm) => {
+DOM.INPUT_OPTIONS.forEach((elm) => {
   elm.addEventListener("change", (event) => {
     const target = event.target;
-    if (target === $$(element.input)[0]) {
-      $(element.inputSearch).disabled = false;
-      $(element.select).classList.add("hideElm");
-      $(element.select).innerHTML = "";
+    if (target === DOM.INPUT_OPTIONS[0]) {
+      DOM.IMPUT_SEARCH.disabled = false;
+      DOM.SELECT.classList.add(CLASS.HIDE_ELM);
+      DOM.SELECT.innerHTML = "";
     }
 
-    if (target === $$(element.input)[1]) {
+    if (target === DOM.INPUT_OPTIONS[1]) {
       const fragment = document.createDocumentFragment();
       // reset
-      $(element.inputSearch).disabled = true;
-      $(element.inputSearch).value = "";
-      $(element.select).innerHTML = "";
+      DOM.IMPUT_SEARCH.disabled = true;
+      DOM.IMPUT_SEARCH.value = "";
+      DOM.SELECT.innerHTML = "";
 
-      for (let i = 0; i < letters.length; i++) {
+      for (let i = 0; i < LETTERS.length; i++) {
         const option = document.createElement("option");
-        option.textContent = letters[i];
-        option.value = letters[i];
+        option.textContent = LETTERS[i];
+        option.value = LETTERS[i];
         fragment.append(option);
       }
-      $(element.select).append(fragment);
-      $(element.select).classList.remove("hideElm");
+      DOM.SELECT.append(fragment);
+      DOM.SELECT.classList.remove(CLASS.HIDE_ELM);
     }
   });
 });
 
-$(element.form).addEventListener("submit", async (event) => {
+DOM.FORM.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  if (event.submitter === $(element.searchBtn)) {
-    const search = $(element.inputSearch).value.toLowerCase();
-    const input = $$(element.input);
+  if (event.submitter === DOM.SEARCH_BTN) {
+    const search = DOM.IMPUT_SEARCH.value.toLowerCase();
+    const input = DOM.INPUT_OPTIONS;
 
     if (search !== "" && input[0].checked === true) {
       (async function () {
@@ -126,51 +112,59 @@ $(element.form).addEventListener("submit", async (event) => {
 
           if (longitude > 0) {
             const fragment = document.createDocumentFragment();
-            $(element.select).innerHTML = "";
+            DOM.SELECT.innerHTML = "";
             for (let i = 0; i < longitude; i++) {
               const option = document.createElement("option");
               option.textContent = searchFilter[i];
               option.value = searchFilter[i];
               fragment.append(option);
             }
-            fragment.prepend(template[3].cloneNode(true));
-            $(element.select).append(fragment);
-            $(element.select).classList.remove("hideElm");
+            fragment.prepend(DOM.TEMPLATE[3].cloneNode(true));
+            DOM.SELECT.append(fragment);
+            DOM.SELECT.classList.remove(CLASS.HIDE_ELM);
           } else {
-            $(element.inputSearch).value = message;
+            DOM.IMPUT_SEARCH.value = MESSAGE;
           }
         }
       })();
     }
   }
 
-  if (event.submitter === $(element.filterBtn)) {
-    $(element.filterBy).classList.toggle("hideElm");
+  if (event.submitter === DOM.FILTER_BTN) {
+    DOM.FILTER_BY.classList.toggle(CLASS.HIDE_ELM);
   }
 });
 
 // reset
-$(element.form).addEventListener("input", async (event) => {
+DOM.FORM.addEventListener("input", async (event) => {
   event.preventDefault();
   if (event.target.value === "") {
-    $(element.select).classList.add("hideElm");
-    $(element.select).innerHTML = "";
+    DOM.SELECT.classList.add(CLASS.HIDE_ELM);
+    DOM.SELECT.innerHTML = "";
   }
 });
 
 // reset
-$(element.inputSearch).addEventListener("click", () => {
-  $(element.inputSearch).value = "";
+DOM.IMPUT_SEARCH.addEventListener("click", () => {
+  DOM.IMPUT_SEARCH.value = "";
 });
 
-// const showSearchResults = () => {};
-
-$(element.select).addEventListener("change", async (event) => {
-  if ($(element.select).innerHTML !== "") {
+DOM.SELECT.addEventListener("change", async (event) => {
+  if (DOM.SELECT.innerHTML !== "") {
     const name = event.target.value;
-    $(domElements.RECIPES).innerHTML = "";
-    $(domElements.RECIPE_PREPARATION).classList.add(classLists.JS_HIDE);
-    resetRecipePreparation()
+
+    if (DOM.RECIPES().innerHTML !== "") {
+      DOM.RECIPES().innerHTML = "";
+      resetStates()
+      DOM.BTN_NEXT.disabled = true
+      DOM.BTN_PREV.disabled = true
+    }
+
+    if (!DOM.RECIPE_PREPARATION().classList.contains(CLASS.JS_HIDE)) {
+      resetPreparationValues();
+      DOM.RECIPE_PREPARATION().classList.add(CLASS.JS_HIDE);
+      console.log("inside");
+    }
 
     try {
       const response = await fetch(
@@ -179,16 +173,15 @@ $(element.select).addEventListener("change", async (event) => {
       const data = await response.json();
       if (data) {
         const meal = data.meals[0];
-        const mealName = [meal.strMeal];
-        const mealThumb = [meal.strMealThumb];
-        const id = [meal.idMeal];
+        const mealName = [meal.strMeal]; // arr
+        const mealThumb = [meal.strMealThumb]; // arr
+        const mealId = [meal.idMeal]; // arr
 
         resetCategoryId();
         resetCategoryName();
-        setCategoryId(id[0]);
-        setCategoryName(mealName[0]);
-        // await getFullDetailsById(id[0]);
-        displayRecipes(mealName, mealThumb, 0, 1);
+        setCategoryId(mealId[0]); // string
+        setCategoryName(mealName[0]); // string
+        displayRecipes(mealName, mealThumb, 0, 1); // 2 arr
       }
     } catch (error) {
       console.error("api by name", error);

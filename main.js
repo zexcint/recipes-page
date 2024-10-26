@@ -1,6 +1,11 @@
-export { displayRecipes, createFragment,resetRecipePreparation, domElements, classLists, $, $$ };
+export {
+  displayRecipes,
+  createFragment,
+  timeOut
+};
 
-import { template, btn_prev, btn_next } from "./globalVar.js";
+import { DOM, CLASS } from "./global.js";
+
 import {
   getFullDetailsById,
   getIngredients,
@@ -19,31 +24,15 @@ import {
   categoriesDescription,
   URL,
 } from "./apiFunctions.js";
-import { displayPreparation } from "./displayPreparation.js";
+
+import {
+  displayPreparation,
+  resetPreparationValues,
+  startClosingAnimation
+} from "./displayPreparation.js";
+
 import { createCard } from "./setCards.js";
 import { resetStates } from "./navBar.js";
-
-const $ = (element) => document.querySelector(element);
-const $$ = (elements) => document.querySelectorAll(elements);
-
-const domElements = {
-  MAIN_SECTION: ".main-section",
-  RECIPES: ".recipes",
-  CARDS: ".cards",
-  NAVBAR: ".navbar",
-  LOADING: ".loading",
-  TOGGLE_CARD_BTN: ".toggleCardBtn",
-  RECIPE_BTN: ".recipe-btn",
-  NAV_BTN: ".navBtn",
-  RECIPE_PREPARATION: ".recipePreparation",
-};
-
-const classLists = {
-  CARDS_SWITCH_MODE: "cardsSwitchMode",
-  JS_SHOW: "js-show",
-  JS_HIDE: "js-hide",
-  MAIN_SECTION: "main-section",
-};
 
 const createFragment = (count) => {
   const arr = [];
@@ -56,7 +45,7 @@ const createFragment = (count) => {
 
 const showLoading = (ms) => {
   return new Promise((resolve) => {
-    $(domElements.LOADING).hidden = false;
+    DOM.LOADING.hidden = false;
     setTimeout(() => {
       resolve();
     }, ms);
@@ -74,42 +63,30 @@ const timeOut = (ms) => {
 const resetAllStates = () => {
   resetAllCategories();
   resetStates();
-  btn_prev.disabled = true;
-  $(domElements.RECIPES).innerHTML = "";
-  $(domElements.RECIPES).classList.add(classLists.JS_HIDE);
-  $(domElements.NAVBAR).classList.add(classLists.JS_HIDE);
+  DOM.BTN_PREV.disabled = true;
+  DOM.RECIPES().innerHTML = "";
+  DOM.RECIPES().classList.add(CLASS.JS_HIDE);
+  DOM.NAVBAR().classList.add(CLASS.JS_HIDE);
 
-  $$(`${domElements.CARDS} div.cardsSwitchMode`).forEach((elm) => {
+  DOM.CARDS_SWITCH_MODE().forEach((elm) => {
     elm.lastElementChild.hidden = true;
-    elm.classList.remove("cardsSwitchMode");
+    elm.classList.remove(CLASS.CARDS_SWITCH_MODE);
   });
 
-  if ($(`${domElements.RECIPE_PREPARATION} > h2`).textContent !== "") {
-    $(`${domElements.RECIPE_PREPARATION} > h2`).textContent = "";
-    $(`${domElements.RECIPE_PREPARATION} > textarea`).value = "";
-    $(`${domElements.RECIPE_PREPARATION} > aside > span.thumb > img`).src = "";
-    $(
-      `${domElements.RECIPE_PREPARATION} > aside > span.category > p + p`
-    ).textContent = "";
-    $(
-      `${domElements.RECIPE_PREPARATION} > aside > span.area > p + p`
-    ).textContent = "";
-    // $(`${domElements.RECIPE_PREPARATION} > aside > span.area`).innerHTML = "";
-    $(
-      `${domElements.RECIPE_PREPARATION} > aside > span.tags > p + p`
-    ).textContent = "";
-    $(`${domElements.RECIPE_PREPARATION} > aside > span.ytb > a`).href = "";
-    $(`${domElements.RECIPE_PREPARATION} > ol`).innerHTML = "";
-    $(domElements.RECIPE_PREPARATION).classList.add(classLists.JS_HIDE);
+  if (DOM.RECIPE_PREPARATION_H2().textContent !== "") {
+    resetPreparationValues()
+    console.log(DOM.RECIPE_PREPARATION().classList);
+    DOM.RECIPE_PREPARATION().classList.add(CLASS.JS_HIDE);
+    console.log(DOM.RECIPE_PREPARATION().classList);
   }
 };
 
 const displayCategories = () => {
   const [f1, f2, f3, f4] = createFragment(4);
-  const [card1, card2, card3, card4] = $$(domElements.CARDS);
+  const [card1, card2, card3, card4] = DOM.CARDS
 
   for (const [index, value] of categories.entries()) {
-    const container = template[2].cloneNode(true);
+    const container = DOM.TEMPLATE[2].cloneNode(true);
     const [a, div, section, textarea] = container.children;
     const [img] = div.children;
 
@@ -156,7 +133,8 @@ const displayCategories = () => {
 };
 
 const setCategory = () => {
-  const categoriesOptions = $$(`${domElements.CARDS} > div > a`);
+  // const categoriesOptions = DOM.CARDS_ANCHOR;
+  const categoriesOptions = document.querySelectorAll(".cards > div > a");
 
   categoriesOptions.forEach((element) => {
     element.addEventListener("click", async (event) => {
@@ -184,7 +162,7 @@ const filterByCategory = async (prop) => {
         setCategoryName(strMeal);
         setCategoryThumb(strMealThumb);
       }
-      btn_next.disabled = getCategoryName().length <= 4;
+      DOM.BTN_NEXT.disabled = getCategoryName().length <= 4;
       displayRecipes(getCategoryName(), getCategoryThumb(), 0, 4);
     }
   } catch (error) {
@@ -199,15 +177,15 @@ const displayRecipes = (arr, arr2, start, end) => {
     if (arr[index] === undefined) {
       break;
     }
-    // getCategoryThumb()
     createCard(arr, arr2, fragment, index);
   }
-  $(domElements.RECIPES).append(fragment);
+
+  DOM.RECIPES().append(fragment);
 };
 
 const handleCardNavigation = () => {
-  const buttons = $$(domElements.TOGGLE_CARD_BTN);
-  const cards = $$(domElements.CARDS);
+  const buttons = DOM.TOGGLE_CARD_BTN;
+  const cards = DOM.CARDS;
   const MAX_CLICK = buttons.length;
   const MIN_CLICK = 0;
   let countClick = 0;
@@ -232,47 +210,44 @@ const handleCardNavigation = () => {
   });
 };
 
-const displayInfoCategory = () => {
-  const buttons = document.querySelectorAll(domElements.RECIPE_BTN);
 
-  buttons.forEach((btn) => {
+const displayInfoCategory = () => {
+  DOM.RECIPE_BTN_ALL().forEach((btn) => {
     btn.addEventListener("click", (event) => {
       const target = event.currentTarget;
       const parent = target.closest("div");
       const textarea = parent.lastElementChild;
       textarea.hidden = textarea.hidden === false;
-      parent.classList.toggle(classLists.CARDS_SWITCH_MODE);
+      parent.classList.toggle(CLASS.CARDS_SWITCH_MODE);
     });
   });
 };
-
-// here
 
 const run = async () => {
   await getCategories();
   displayCategories();
   setCategory();
-  // await getIngredients()
   handleCardNavigation();
   displayInfoCategory();
-  // getIngredients()
 
-  const buttons = $$(domElements.NAV_BTN);
   const config = {
     childList: true,
     subtree: true,
     characterData: true,
   };
 
+  const TARGET_NODE = DOM.MAIN_SECTION
   const observer = new MutationObserver(async (event) => {
-    if (event[0].target.parentElement.className === classLists.MAIN_SECTION) {
+    observer.disconnect();
+
+    if (event[0].target.parentElement.className === CLASS.MAIN_SECTION) {
       await showLoading(1000);
 
-      $(domElements.LOADING).hidden = true;
-      $(domElements.RECIPES).classList.remove(classLists.JS_HIDE);
-      $(domElements.NAVBAR).classList.remove(classLists.JS_HIDE);
+      DOM.LOADING.hidden = true;
+      DOM.RECIPES().classList.remove(CLASS.JS_HIDE);
+      DOM.NAVBAR().classList.remove(CLASS.JS_HIDE);
 
-      $$(`${domElements.RECIPES} > article`).forEach((article) => {
+      DOM.RECIPE_ARTICLES().forEach((article) => {
         article.addEventListener("click", async (event) => {
           const target = event.currentTarget.textContent.trim();
           const id = getCategoryName().indexOf(target);
@@ -284,53 +259,31 @@ const run = async () => {
         });
       });
     }
+
+    observer.observe(TARGET_NODE, config);
   });
 
-  observer.observe($(domElements.MAIN_SECTION), config);
+  observer.observe(TARGET_NODE, config);
 
-  buttons.forEach((btn) => {
+  DOM.NAV_ALL_BTN.forEach((btn) => {
     btn.addEventListener("click", async () => {
-      $(domElements.LOADING).hidden = false;
-      $(domElements.RECIPES).classList.add(classLists.JS_HIDE);
-      $(domElements.NAVBAR).classList.add(classLists.JS_HIDE);
+      DOM.LOADING.hidden = false;
+      DOM.RECIPES().classList.add(CLASS.JS_HIDE);
+      DOM.NAVBAR().classList.add(CLASS.JS_HIDE);
 
       await timeOut(1000);
 
-      $(domElements.LOADING).hidden = true;
-      $(domElements.RECIPES).classList.remove(classLists.JS_HIDE);
-      $(domElements.NAVBAR).classList.remove(classLists.JS_HIDE);
+      DOM.LOADING.hidden = true;
+      DOM.RECIPES().classList.remove(CLASS.JS_HIDE);
+      DOM.NAVBAR().classList.remove(CLASS.JS_HIDE);
     });
   });
 
-  $(`${domElements.RECIPE_PREPARATION} > button > svg`).addEventListener(
-    "click",
-    async () => {
-      resetRecipePreparation();
-      $(domElements.RECIPE_PREPARATION).classList.add("closeTab");
-      await timeOut(250);
-      $(domElements.RECIPE_PREPARATION).classList.remove("closeTab");
-      $(domElements.RECIPE_PREPARATION).classList.add(classLists.JS_HIDE);
-      $(domElements.RECIPES).classList.remove(classLists.JS_HIDE);
-      $(domElements.NAVBAR).classList.remove(classLists.JS_HIDE);
+  DOM.RECIPE_PREPARATION_BTN().addEventListener("click", async () => {
+      resetPreparationValues();
+      startClosingAnimation()
     }
   );
 }; // end
 
 run();
-
-const resetRecipePreparation = () => {
-  $(`${domElements.RECIPE_PREPARATION} > ol`).innerHTML = "";
-  $(`${domElements.RECIPE_PREPARATION} > h2`).textContent = "";
-  $(`${domElements.RECIPE_PREPARATION} > textarea`).value = "";
-  $(`${domElements.RECIPE_PREPARATION} > aside > span > img`).src = "";
-  $(
-    `${domElements.RECIPE_PREPARATION} > aside > span.category > p + p`
-  ).textContent = " ";
-  $(
-    `${domElements.RECIPE_PREPARATION} > aside > span.area > p + p`
-  ).textContent = "";
-  $(
-    `${domElements.RECIPE_PREPARATION} > aside > span.tags > p + p`
-  ).textContent = "";
-  $(`${domElements.RECIPE_PREPARATION} > aside > span.ytb > a`).href = "";
-};

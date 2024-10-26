@@ -1,12 +1,19 @@
-export { resetStates };
+export { resetStates, getStates };
 import { getCategoryName, getCategoryThumb } from "./apiFunctions.js";
-import { btn_prev, btn_next } from "./globalVar.js";
+import { DOM } from "./global.js";
 import { createCard } from "./setCards.js";
 
 const states = {
   currentIndex: 4,
-  reference: [],
+  reference: []
 };
+
+function getStates() {
+  return {
+    currentIndex: states.currentIndex,
+    reference: [...states.reference]
+  }
+}
 
 const resetStates = () => {
   states.currentIndex = 4;
@@ -21,19 +28,19 @@ const nextPage = () => {
     createCard(getCategoryName(), getCategoryThumb(), fragment, i);
   }
 
-  states.reference.push(document.querySelector(".recipes").cloneNode(true));
+  states.reference.push(DOM.RECIPES().cloneNode(true));
 
-  document.querySelector(".recipes").innerHTML = "";
+  DOM.RECIPES().innerHTML = "";
 
   for (let i = 0; i < 4; i++) {
     if (fragment.firstElementChild === null) {
       break;
     }
-    document.querySelector(".recipes").append(fragment.firstElementChild);
+    DOM.RECIPES().append(fragment.firstElementChild);
   }
 
   if (maxLength === getCategoryName().length) {
-    btn_next.disabled = true;
+    DOM.BTN_NEXT.disabled = true;
     return;
   } else {
     states.currentIndex += 4;
@@ -41,28 +48,21 @@ const nextPage = () => {
 };
 
 const prevPage = () => {
-  document
-    .querySelector(".main-section")
-    .replaceChild(states.reference.pop(), document.querySelector(".recipes"));
-
-  states.currentIndex =
-    getCategoryName().indexOf(
-      document.querySelector(".recipes").lastElementChild.textContent.trim()
-    ) + 1;
-  btn_prev.disabled = states.reference.length === 0;
+  DOM.MAIN_SECTION.replaceChild(states.reference.pop(), DOM.RECIPES());
+  states.currentIndex = getCategoryName().indexOf(DOM.RECIPES().lastElementChild.textContent.trim()) + 1;
+  DOM.BTN_PREV.disabled = states.reference.length === 0;
 };
 
-btn_prev.addEventListener("click", () => {
+DOM.BTN_PREV.addEventListener("click", () => {
   prevPage();
-  // if (btn_next.disabled === true) {
-  //   btn_next.disabled = false;
-  // }
-  btn_next.disabled = false;
-  // true -> false
-  // false -> true
+  if (DOM.BTN_NEXT.disabled === true) {
+   DOM.BTN_NEXT.disabled = false;
+  }
 });
 
-btn_next.addEventListener("click", () => {
+DOM.BTN_NEXT.addEventListener("click", () => {
   nextPage();
-  btn_prev.disabled = false;
+  if (DOM.BTN_PREV.disabled === true) {
+    DOM.BTN_PREV.disabled = false;
+  }
 });
