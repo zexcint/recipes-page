@@ -133,11 +133,9 @@ const displayCategories = () => {
 };
 
 const setCategory = () => {
-  // const categoriesOptions = DOM.CARDS_ANCHOR;
-  const categoriesOptions = document.querySelectorAll(".cards > div > a");
-
-  categoriesOptions.forEach((element) => {
+  DOM.CARDS_ANCHOR().forEach((element) => {
     element.addEventListener("click", async (event) => {
+      // time of animation 1s
       timeOut(1000);
       // reset
       resetAllStates();
@@ -184,32 +182,30 @@ const displayRecipes = (arr, arr2, start, end) => {
 };
 
 const handleCardNavigation = () => {
-  const buttons = DOM.TOGGLE_CARD_BTN;
-  const cards = DOM.CARDS;
-  const MAX_CLICK = buttons.length;
+  const [prev, next] = DOM.TOGGLE_CARD_BTN;
+  const MAX_CLICK = DOM.TOGGLE_CARD_BTN.length;
   const MIN_CLICK = 0;
   let countClick = 0;
 
-  buttons.forEach((btn) => {
+  DOM.TOGGLE_CARD_BTN.forEach((btn) => {
     btn.addEventListener("click", (event) => {
       const currentTarget = event.currentTarget.dataset.id;
 
       if (currentTarget === "next") {
-        cards[countClick].style.display = "none";
-        cards[countClick + 1].style.display = "grid";
+        DOM.CARDS[countClick].style.display = "none";
+        DOM.CARDS[countClick + 1].style.display = "grid";
         countClick++;
       } else {
         countClick--;
-        cards[countClick + 1].style.display = "none";
-        cards[countClick].style.display = "grid";
+        DOM.CARDS[countClick + 1].style.display = "none";
+        DOM.CARDS[countClick].style.display = "grid";
       }
 
-      buttons[0].disabled = countClick <= MIN_CLICK;
-      buttons[1].disabled = countClick > MAX_CLICK;
+      prev.disabled = countClick <= MIN_CLICK;
+      next.disabled = countClick > MAX_CLICK;
     });
   });
 };
-
 
 const displayInfoCategory = () => {
   DOM.RECIPE_BTN_ALL().forEach((btn) => {

@@ -1,41 +1,43 @@
 export { DOM, CLASS };
-
-// const template = document.querySelector("#template").content.children;
-// const [btn_prev, btn_next] = document.querySelectorAll(".navBtn");
+const $ = elm => document.querySelector(`${elm}`)
+const $$ = elm => document.querySelectorAll(`${elm}`)
 
 const DOM = {
-  RECIPES: () => document.querySelector(".recipes"),
-  NAVBAR: () => document.querySelector(".navbar"),
-  RECIPE_ARTICLES: () => document.querySelectorAll(".recipes > article"),
-  TEMPLATE: document.querySelector("#template").content.children,
-  MAIN_SECTION: document.querySelector(".main-section"),
-  CARDS: document.querySelectorAll(".cards"),
-  LOADING: document.querySelector(".loading"),
-  RECIPE_BTN: document.querySelector(".recipe-btn"),
-  RECIPE_BTN_ALL: () => document.querySelectorAll(".recipe-btn"),
-  NAV_ALL_BTN: document.querySelectorAll(".navBtn"),
-  BTN_PREV: document.querySelectorAll(".navBtn")[0],
-  BTN_NEXT: document.querySelectorAll(".navBtn")[1],
-  TOGGLE_CARD_BTN: document.querySelectorAll(".toggleCardBtn"),
-  FORM: document.querySelector("header > nav > form"),
-  IMPUT_SEARCH: document.querySelector("form > fieldset > input[type='search']"),
-  FILTER_BY: document.querySelector("form > fieldset.containerFilterBy"),
-  SEARCH_BTN: document.querySelector("button.search-btn"),
-  FILTER_BTN: document.querySelector("button.filter-btn"),
-  SELECT: document.querySelector("header > nav > form > fieldset > select"),
-  INPUT_OPTIONS: document.querySelectorAll("input[name='options']"),
-  CARDS_SWITCH_MODE: () => document.querySelectorAll(".cards div.cardsSwitchMode"),
-  CARDS_ANCHOR: document.querySelectorAll(".cards > div > a"),
-  RECIPE_PREPARATION: () => document.querySelector(".recipePreparation"),
-  RECIPE_PREPARATION_BTN: () => document.querySelector(".recipePreparation > button"),
-  RECIPE_PREPARATION_H2: () => document.querySelector(".recipePreparation > h2"),
-  RECIPE_PREPARATION_TEXTAREA: () => document.querySelector(".recipePreparation > textarea"),
-  RECIPE_PREPARATION_THUMB: () => document.querySelector(".recipePreparation > aside > span.thumb > img"),
-  RECIPE_PREPARATION_CATEGORY: () => document.querySelector(".recipePreparation > aside > span.category > p + p"),
-  RECIPE_PREPARATION_AREA: () => document.querySelector(".recipePreparation > aside > span.area > p + p"),
-  RECIPE_PREPARATION_TAGS: () => document.querySelector(".recipePreparation > aside > span.tags > p + p"),
-  RECIPE_PREPARATION_LINK: () => document.querySelector(".recipePreparation > aside > span.ytb > a"),
-  RECIPE_PREPARATION_OL: () => document.querySelector(".recipePreparation > ol"),
+  // Static
+  TEMPLATE: $("#template").content.children,
+  MAIN_SECTION: $(".main-section"),
+  CARDS: $$(".cards"),
+  LOADING: $(".loading"),
+  RECIPE_BTN: $(".recipe-btn"),
+  NAV_ALL_BTN: $$(".navBtn"),
+  BTN_PREV: $$(".navBtn")[0],
+  BTN_NEXT: $$(".navBtn")[1],
+  TOGGLE_CARD_BTN: $$(".toggleCardBtn"),
+  FORM: $("header > nav > form"),
+  IMPUT_SEARCH: $("form > fieldset > input[type='search']"),
+  FILTER_BY: $("form > fieldset.containerFilterBy"),
+  SEARCH_BTN: $("button.search-btn"),
+  FILTER_BTN: $("button.filter-btn"),
+  SELECT: $("header > nav > form > fieldset > select"),
+  INPUT_OPTIONS: $$("input[name='options']"),
+
+  // Dynamic
+  RECIPES: () => $(".recipes"),
+  RECIPE_ARTICLES: () => $$(".recipes > article"),
+  RECIPE_BTN_ALL: () => $$(".recipe-btn"),
+  CARDS_ANCHOR: () => $$(".cards > div > a"),
+  CARDS_SWITCH_MODE: () => $$(".cards div.cardsSwitchMode"),
+  NAVBAR: () => $(".navbar"),
+  RECIPE_PREPARATION: () => $(".recipePreparation"),
+  RECIPE_PREPARATION_BTN: () => $(".recipePreparation > button"),
+  RECIPE_PREPARATION_H2: () => $(".recipePreparation > h2"),
+  RECIPE_PREPARATION_TEXTAREA: () => $(".recipePreparation > textarea"),
+  RECIPE_PREPARATION_THUMB: () => $(".recipePreparation > aside > div.thumb > img"),
+  RECIPE_PREPARATION_CATEGORY: () => $(".recipePreparation > aside > div.category > p + p"),
+  RECIPE_PREPARATION_AREA: () => $(".recipePreparation > aside > div.area > p + p"),
+  RECIPE_PREPARATION_TAGS: () => $(".recipePreparation > aside > div.tags > p + p"),
+  RECIPE_PREPARATION_LINK: () => $(".recipePreparation > aside > div.ytb > a"),
+  RECIPE_PREPARATION_OL: () => $(".recipePreparation > ol"),
 };
 
 const CLASS = {

@@ -1,15 +1,17 @@
 import { DOM, CLASS } from "./global.js";
-import { displayRecipes } from "./main.js";
+import { displayRecipes, createFragment } from "./main.js";
 import {
   URL,
   setCategoryName,
   setCategoryId,
+  getCategoryId,
+  getCategoryName,
   resetCategoryId,
   resetCategoryName,
 } from "./apiFunctions.js";
 
-import {resetPreparationValues} from "./displayPreparation.js"
-import {resetStates, getStates} from "./navBar.js"
+import { resetPreparationValues } from "./displayPreparation.js";
+import { resetStates, getStates } from "./navBar.js";
 
 const MESSAGE = "Not found";
 const LETTERS = [
@@ -44,26 +46,48 @@ const LETTERS = [
 DOM.INPUT_OPTIONS.forEach((elm) => {
   elm.addEventListener("change", (event) => {
     const target = event.target;
+
     if (target === DOM.INPUT_OPTIONS[0]) {
-      DOM.IMPUT_SEARCH.disabled = false;
-      DOM.SELECT.classList.add(CLASS.HIDE_ELM);
-      DOM.SELECT.innerHTML = "";
+      // DOM.IMPUT_SEARCH.disabled = false;
+      // DOM.SELECT.classList.add(CLASS.HIDE_ELM);
+      // DOM.SELECT.innerHTML = "";
+      // reset
+      if (DOM.IMPUT_SEARCH.disabled === true) {
+        DOM.IMPUT_SEARCH.disabled = false;
+      }
+
+      if (!DOM.SELECT.classList.contains(CLASS.HIDE_ELM)) {
+        DOM.SELECT.classList.add(CLASS.HIDE_ELM);
+      }
+
+      if (DOM.SELECT.innerHTML !== "") {
+        DOM.SELECT.innerHTML = "";
+      }
     }
 
     if (target === DOM.INPUT_OPTIONS[1]) {
-      const fragment = document.createDocumentFragment();
+      const fragment = createFragment(1)[0];
       // reset
-      DOM.IMPUT_SEARCH.disabled = true;
-      DOM.IMPUT_SEARCH.value = "";
-      DOM.SELECT.innerHTML = "";
+      if (DOM.IMPUT_SEARCH.disabled === false) {
+        DOM.IMPUT_SEARCH.disabled = true;
+      }
+
+      if (DOM.IMPUT_SEARCH.value !== "") {
+        DOM.IMPUT_SEARCH.value = "";
+      }
+
+      if (DOM.SELECT.innerHTML !== "") {
+        DOM.SELECT.innerHTML = "";
+      }
 
       for (let i = 0; i < LETTERS.length; i++) {
         const option = document.createElement("option");
-        option.textContent = LETTERS[i];
+        option.textContent = LETTERS[i].toUpperCase();
         option.value = LETTERS[i];
         fragment.append(option);
       }
       DOM.SELECT.append(fragment);
+      DOM.SELECT.prepend(DOM.TEMPLATE[3].cloneNode(true))
       DOM.SELECT.classList.remove(CLASS.HIDE_ELM);
     }
   });
@@ -74,7 +98,7 @@ DOM.FORM.addEventListener("submit", async (event) => {
 
   if (event.submitter === DOM.SEARCH_BTN) {
     const search = DOM.IMPUT_SEARCH.value.toLowerCase();
-    const input = DOM.INPUT_OPTIONS;
+    const input = DOM.INPUT_OPTIONS; // arr
 
     if (search !== "" && input[0].checked === true) {
       (async function () {
@@ -107,19 +131,20 @@ DOM.FORM.addEventListener("submit", async (event) => {
             .map((elm) => elm["strMeal"].toLowerCase());
 
           const searchFilter = allMeals.filter((elm) => elm.startsWith(search));
+          const countElements = searchFilter.length
+          const result = DOM.TEMPLATE[3].cloneNode(true)
+          result.textContent += `${countElements}`
 
-          const longitude = searchFilter.length;
-
-          if (longitude > 0) {
+          if (searchFilter.length > 0) {
             const fragment = document.createDocumentFragment();
             DOM.SELECT.innerHTML = "";
-            for (let i = 0; i < longitude; i++) {
+            for (let i = 0; i < searchFilter.length; i++) {
               const option = document.createElement("option");
               option.textContent = searchFilter[i];
               option.value = searchFilter[i];
               fragment.append(option);
             }
-            fragment.prepend(DOM.TEMPLATE[3].cloneNode(true));
+            fragment.prepend(result);
             DOM.SELECT.append(fragment);
             DOM.SELECT.classList.remove(CLASS.HIDE_ELM);
           } else {
@@ -132,6 +157,9 @@ DOM.FORM.addEventListener("submit", async (event) => {
 
   if (event.submitter === DOM.FILTER_BTN) {
     DOM.FILTER_BY.classList.toggle(CLASS.HIDE_ELM);
+    // if (DOM.RECIPES().innerHTML !== "") {
+    //   DOM.RECIPES().innerHTML = "";
+    // }
   }
 });
 
@@ -141,35 +169,35 @@ DOM.FORM.addEventListener("input", async (event) => {
   if (event.target.value === "") {
     DOM.SELECT.classList.add(CLASS.HIDE_ELM);
     DOM.SELECT.innerHTML = "";
+    if (DOM.RECIPES().innerHTML !== "") {
+      DOM.RECIPES().innerHTML = "";
+    }
   }
 });
 
 // reset
-DOM.IMPUT_SEARCH.addEventListener("click", () => {
-  DOM.IMPUT_SEARCH.value = "";
-});
+// DOM.IMPUT_SEARCH.addEventListener("click", () => {
+//   DOM.IMPUT_SEARCH.value = "";
+// });
 
 DOM.SELECT.addEventListener("change", async (event) => {
-  if (DOM.SELECT.innerHTML !== "") {
+  if (DOM.SELECT.innerHTML !== "" && event.target.value.length > 1) {
     const name = event.target.value;
 
     if (DOM.RECIPES().innerHTML !== "") {
       DOM.RECIPES().innerHTML = "";
-      resetStates()
-      DOM.BTN_NEXT.disabled = true
-      DOM.BTN_PREV.disabled = true
+      resetStates();
+      DOM.BTN_NEXT.disabled = true;
+      DOM.BTN_PREV.disabled = true;
     }
 
     if (!DOM.RECIPE_PREPARATION().classList.contains(CLASS.JS_HIDE)) {
       resetPreparationValues();
       DOM.RECIPE_PREPARATION().classList.add(CLASS.JS_HIDE);
-      console.log("inside");
     }
 
     try {
-      const response = await fetch(
-        `https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`
-      );
+      const response = await fetch(URL.FILTER_BY_NAME + name);
       const data = await response.json();
       if (data) {
         const meal = data.meals[0];
@@ -186,5 +214,67 @@ DOM.SELECT.addEventListener("change", async (event) => {
     } catch (error) {
       console.error("api by name", error);
     }
+  } else if (DOM.SELECT.innerHTML !== "" && event.target.value.length === 1) {
+    const selectedLetter = event.target.value;
+    // start
+    try {
+      const response = await fetch(URL.FILTER_BY_FIRST_LETTER + selectedLetter)
+      const data = await response.json()
+      if (data) {
+        const meals = data.meals
+        const mealsName = []
+        const mealsThumb = []
+        const mealsId = [];
+        try {
+          async function x(i) {
+            const response = await fetch(URL.FILTER_BY_ID + meals[i].idMeal);
+            const data = response.json();
+            if (data) {
+              return data;
+            }
+          }
+
+          const apiData = meals.map((e, i) => x(i));
+
+          // reset
+          if (DOM.RECIPES().innerHTML !== "") {
+            DOM.RECIPES().innerHTML = ""
+            resetStates();
+            DOM.BTN_NEXT.disabled = true;
+            DOM.BTN_PREV.disabled = true;
+          }
+
+          if (getCategoryId().length > 0) {
+            resetCategoryId();
+          }
+
+          if (getCategoryName().length > 0) {
+            resetCategoryName();
+          }
+
+          for await (const value of apiData) {
+            // strMeal
+            // strMealThumb
+            mealsName.push(value.meals[0].strMeal)
+            mealsThumb.push(value.meals[0].strMealThumb)
+            mealsId.push(value.meals[0].idMeal)
+
+            setCategoryName(value.meals[0].strMeal); // string
+            setCategoryId(value.meals[0].idMeal); // string
+          }
+        } catch (error) {
+          console.error("api by letter", error);
+        }
+
+        // console.log(mealsName);
+        // console.log(mealsThumb);
+        // console.log(mealsId);
+
+        displayRecipes(mealsName, mealsThumb, 0, mealsName.length);
+      }
+    } catch (error) {
+
+    }
+    // end
   }
 });

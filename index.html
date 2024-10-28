@@ -1,241 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recipes</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" href="data:," />
-    <script type="module" src="main.js"></script>
-    <script type="module" src="searchRecipes.js"></script>
-    <script type="module" src="./navBar.js"></script>
-     <!-- <script type="module" src="global.js"></script> -->
-    <!-- fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-      rel="stylesheet"
-    />
-  </head>
 
-  <body>
-    <header>
-      <h1>The Recipe Box</h1>
-      <h2>Discover Delicious New Favorites</h2>
-      <nav>
-        <form>
-          <fieldset class="containerSearch">
-            <input type="search" autofocus placeholder="Search..." />
-            <select class="hideElm"></select>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipes</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:,">
+  <script type="module" src="main.js"></script>
+  <script type="module" src="searchRecipes.js"></script>
+  <script type="module" src="./navBar.js"></script>
+  <!-- fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+</head>
 
-            <button type="submit" class="search-btn">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-search"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                <path d="M21 21l-6 -6" />
-              </svg>
-            </button>
-            <button type="submit" class="filter-btn">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-settings"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path
-                  d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"
-                />
-                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-              </svg>
-            </button>
-          </fieldset>
+<body>
+  <header>
+    <h1>The Recipe Box</h1>
+    <h2>Discover Delicious New Favorites</h2>
+    <nav>
+      <form>
+        <fieldset class="containerSearch">
+          <input type="search" autofocus placeholder="Search...">
+          <select class="hideElm"></select>
 
-          <!-- <div ></div> -->
-            <!-- <span></span> -->
+          <button type="submit" class="search-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-search">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+              <path d="M21 21l-6 -6" />
+            </svg>
+          </button>
+          <button type="submit" class="filter-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-settings">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+              <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+            </svg>
+          </button>
+        </fieldset>
 
-            <fieldset class="containerFilterBy hideElm">
-              <legend>Filter by:</legend>
-              <label
-                >name<input type="radio" name="options" value="name" checked
-              /></label>
-              <label
-                >letter<input type="radio" name="options" value="letter"
-              /></label>
-            </fieldset>
+        <!-- <div ></div> -->
+        <!-- <span></span> -->
 
-        </form>
-      </nav>
-    </header>
-    <main>
-      <div class="container">
-        <section class="categories">
-          <section>
-            <div>
-              <h2>Choice your favorite category</h2>
-            </div>
-          </section>
-          <section class="category-cards">
-            <section class="cards"></section>
-            <section class="cards"></section>
-            <section class="cards"></section>
-            <section class="cards"></section>
-            <div class="showMoreoptions">
-              <button
-                type="button"
-                class="toggleCardBtn"
-                disabled
-                data-id="prev"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M5 12l14 0" />
-                  <path d="M5 12l6 6" />
-                  <path d="M5 12l6 -6" />
-                </svg>
-              </button>
-              <button type="button" class="toggleCardBtn" data-id="next">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-right"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M5 12l14 0" />
-                  <path d="M13 18l6 -6" />
-                  <path d="M13 6l6 6" />
-                </svg>
-              </button>
-            </div>
-          </section>
+        <fieldset class="containerFilterBy hideElm">
+          <legend>Filter by:</legend>
+          <label>name<input type="radio" name="options" value="name" checked></label>
+          <label>letter<input type="radio" name="options" value="letter"></label>
+        </fieldset>
+      </form>
+    </nav>
+  </header>
+  <main>
+    <div class="container">
+      <section class="categories">
+        <section>
+          <div>
+            <h2>Choice your favorite category</h2>
+          </div>
         </section>
-
-        <div class="main-section" id="recipeTarget">
-          <section class="recipes js-hide"></section>
-          <section class="recipePreparation js-hide">
-            <h2></h2>
-            <ol class="ingredients"></ol>
-            <textarea readonly></textarea>
-            <aside>
-              <span class="thumb">
-                <img src="" alt="" />
-              </span>
-              <span class="category">
-                <p>category</p>
-                <p></p>
-              </span>
-              <span class="area">
-                <p>area</p>
-                <p></p>
-              </span>
-              <span class="tags">
-                <p>tags</p>
-                <p></p>
-              </span>
-              <span class="ytb"
-                ><a href="" target="_blank"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="icon icon-tabler icons-tabler-filled icon-tabler-brand-youtube"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path
-                      d="M18 3a5 5 0 0 1 5 5v8a5 5 0 0 1 -5 5h-12a5 5 0 0 1 -5 -5v-8a5 5 0 0 1 5 -5zm-9 6v6a1 1 0 0 0 1.514 .857l5 -3a1 1 0 0 0 0 -1.714l-5 -3a1 1 0 0 0 -1.514 .857z"
-                    /></svg></a
-              ></span>
-            </aside>
-            <button>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-back"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" />
-              </svg>
-            </button>
-          </section>
-          <div class="loading" hidden></div>
-          <div class="navbar js-hide">
-            <button type="button" class="navBtn" disabled>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"
-              >
+        <section class="category-cards">
+          <section class="cards"></section>
+          <section class="cards"></section>
+          <section class="cards"></section>
+          <section class="cards"></section>
+          <div class="showMoreoptions">
+            <button type="button" class="toggleCardBtn" disabled data-id="prev">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M5 12l14 0" />
                 <path d="M5 12l6 6" />
                 <path d="M5 12l6 -6" />
               </svg>
             </button>
-            <button type="button" class="navBtn" disabled>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-right"
-              >
+            <button type="button" class="toggleCardBtn" data-id="next">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-right">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M5 12l14 0" />
                 <path d="M13 18l6 -6" />
@@ -243,77 +95,127 @@
               </svg>
             </button>
           </div>
-        </div>
-      </div>
-    </main>
+        </section>
+      </section>
 
-    <footer>
-      <p>Contact us</p>
-      <form action="">
-        <input type="email" placeholder="Email" required pattern="" />
-        <input type="text" placeholder="Subject" required />
-        <textarea placeholder="Message" required></textarea>
-        <button type="submit">Send</button>
-      </form>
-    </footer>
-
-    <template id="template">
-      <p>
-        empity
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-mood-empty"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-          <path d="M9 10l.01 0" />
-          <path d="M15 10l.01 0" />
-          <path d="M9 15l6 0" />
-        </svg>
-      </p>
-
-      <article>
-        <span></span>
-        <img src="" alt="" />
-      </article>
-
-      <div>
-        <a href="#recipeTarget"></a>
-        <div>
-          <img src="" alt="" />
-        </div>
-        <section>
-          <button class="recipe-btn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-info-circle"
-            >
+      <div class="main-section" id="recipeTarget">
+        <section class="recipes js-hide"></section>
+        <section class="recipePreparation js-hide">
+          <h2></h2>
+          <ol class="ingredients"></ol>
+          <textarea readonly></textarea>
+          <aside>
+            <div class="thumb">
+              <img src="./assets/placeholder.png" alt="thumb">
+            </div>
+            <div class="category">
+              <p>category</p>
+              <p></p>
+            </div>
+            <div class="area">
+              <p>area</p>
+              <p></p>
+            </div>
+            <div class="tags">
+              <p>tags</p>
+              <p></p>
+            </div>
+            <div class="ytb">
+              <a href="" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  viewBox="0 0 24 24" fill="currentColor"
+                  class="icon icon-tabler icons-tabler-filled icon-tabler-brand-youtube">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    d="M18 3a5 5 0 0 1 5 5v8a5 5 0 0 1 -5 5h-12a5 5 0 0 1 -5 -5v-8a5 5 0 0 1 5 -5zm-9 6v6a1 1 0 0 0 1.514 .857l5 -3a1 1 0 0 0 0 -1.714l-5 -3a1 1 0 0 0 -1.514 .857z" />
+                </svg></a>
+            </div>
+          </aside>
+          <button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-back">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-              <path d="M12 9h.01" />
-              <path d="M11 12h1v4h1" />
+              <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" />
             </svg>
           </button>
         </section>
-        <textarea class="recipe-description" readonly hidden></textarea>
+        <div class="loading" hidden></div>
+        <div class="navbar js-hide">
+          <button type="button" class="navBtn" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M5 12l14 0" />
+              <path d="M5 12l6 6" />
+              <path d="M5 12l6 -6" />
+            </svg>
+          </button>
+          <button type="button" class="navBtn" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-right">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M5 12l14 0" />
+              <path d="M13 18l6 -6" />
+              <path d="M13 6l6 6" />
+            </svg>
+          </button>
+        </div>
       </div>
-      <option value="" disabled selected>results:</option>
-    </template>
-  </body>
+    </div>
+  </main>
+
+  <footer>
+    <p>Contact us</p>
+    <form>
+      <input type="email" placeholder="Email" required pattern="">
+      <input type="text" placeholder="Subject" required>
+      <textarea placeholder="Message" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </footer>
+
+  <template id="template">
+    <p>
+      empity
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-mood-empty">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+        <path d="M9 10l.01 0" />
+        <path d="M15 10l.01 0" />
+        <path d="M9 15l6 0" />
+      </svg>
+    </p>
+
+    <article>
+      <span></span>
+      <img src="./assets/placeholder.png" alt="thumb">
+    </article>
+
+    <div>
+      <a href="#recipeTarget"></a>
+      <div>
+        <img src="./assets/placeholder.png" alt="thumb">
+      </div>
+      <section>
+        <button class="recipe-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-info-circle">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+            <path d="M12 9h.01" />
+            <path d="M11 12h1v4h1" />
+          </svg>
+        </button>
+      </section>
+      <textarea class="recipe-description" readonly hidden></textarea>
+    </div>
+    <option value="" disabled selected>Result:</option>
+  </template>
+</body>
+
 </html>

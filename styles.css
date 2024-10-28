@@ -522,7 +522,7 @@ footer > form > button:hover {
   background: none;
 }
 
-.recipePreparation :is(h2, h3, ol, textarea, span, svg) {
+.recipePreparation :is(h2, h3, ol, textarea, div, svg) {
   color: var(--text-color);
 }
 
@@ -610,7 +610,7 @@ footer > form > button:hover {
   /* overflow: auto; */
 }
 
-.recipePreparation > aside > span {
+.recipePreparation > aside > div {
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
@@ -622,40 +622,40 @@ footer > form > button:hover {
   background: var(--transparent-color);
 }
 
-.recipePreparation > aside > span:last-of-type {
+.recipePreparation > aside > div:last-of-type {
   justify-content: center;
   align-items: center;
 }
 
-.recipePreparation > aside > span > p {
+.recipePreparation > aside > div > p {
   font-size: clamp(0.5rem, 0.05rem + 2vw, 1rem);
 }
 
-.recipePreparation > aside > span > p:first-of-type {
+.recipePreparation > aside > div > p:first-of-type {
   font-weight: 600;
   color: #ffffff;
   background: var(--accent-color);
 }
 
-/* .recipePreparation > aside > span:last-of-type {
+/* .recipePreparation > aside > div:last-of-type {
   justify-content: center;
   align-items: center;
 } */
 
-.recipePreparation > aside > span > a {
+.recipePreparation > aside > div > a {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.recipePreparation > aside > span > img {
+.recipePreparation > aside > div > img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   aspect-ratio: 1;
 }
 
-/* .recipePreparation:has(span:hover, img:hover, span:active, img:active) {
+/* .recipePreparation:has(div:hover, img:hover, div:active, img:active) {
   grid-template-columns: 1fr 1fr;
 } */
 
