@@ -18,7 +18,7 @@ export {
   categoriesDescription,
   categoriesThumb,
   URL,
-};
+}
 
 const URL = {
   CATEGORIES: "https://www.themealdb.com/api/json/v1/1/categories.php",
@@ -26,50 +26,51 @@ const URL = {
   INGREDIENTS: "https://www.themealdb.com/api/json/v1/1/list.php?i=list",
   FILTER_BY_NAME: "https://www.themealdb.com/api/json/v1/1/search.php?s=",
   FILTER_BY_ID: "https://www.themealdb.com/api/json/v1/1/lookup.php?i=",
-  FILTER_BY_FIRST_LETTER: "https://www.themealdb.com/api/json/v1/1/search.php?f=",
+  FILTER_BY_FIRST_LETTER:
+    "https://www.themealdb.com/api/json/v1/1/search.php?f=",
   THUMB_INGREDIENT: "https://www.themealdb.com/images/ingredients/",
-};
+}
 
 // All Categories
-const categoriesId = [];
-const categories = [];
-const categoriesDescription = [];
-const categoriesThumb = [];
-const detailsById = [];
+const categoriesId = []
+const categories = []
+const categoriesDescription = []
+const categoriesThumb = []
+const detailsById = []
 
 // Single Category
-let categoryId = [];
-let categoryName = [];
-let categoryThumb = [];
+let categoryId = []
+let categoryName = []
+let categoryThumb = []
 
-const getCategoryId = () => categoryId;
-const getCategoryName = () => categoryName;
-const getCategoryThumb = () => categoryThumb;
-const getDetailsById = () => detailsById[0];
+const getCategoryId = () => categoryId
+const getCategoryName = () => categoryName
+const getCategoryThumb = () => categoryThumb
+const getDetailsById = () => detailsById[0]
 
-const setCategoryId = (str) => categoryId.push(str);
-const setCategoryName = (str) => categoryName.push(str);
-const setCategoryThumb = (str) => categoryThumb.push(str);
+const setCategoryId = (str) => categoryId.push(str)
+const setCategoryName = (str) => categoryName.push(str)
+const setCategoryThumb = (str) => categoryThumb.push(str)
 
 // reset F
 const resetAllCategories = () => {
-  categoryId = [];
-  categoryName = [];
-  categoryThumb = [];
-};
+  categoryId = []
+  categoryName = []
+  categoryThumb = []
+}
 
-const resetCategoryId = () => (categoryId = []);
-const resetCategoryName = () => (categoryName = []);
+const resetCategoryId = () => (categoryId = [])
+const resetCategoryName = () => (categoryName = [])
 
 // All Ingredients
-const ingredientsId = [];
-const ingredients = [];
-const ingredientsDescription = [];
+const ingredientsId = []
+const ingredients = []
+const ingredientsDescription = []
 
 const getCategories = async () => {
   try {
-    const response = await fetch(URL.CATEGORIES);
-    const data = await response.json();
+    const response = await fetch(URL.CATEGORIES)
+    const data = await response.json()
     if (data) {
       // idCategory
       // strCategory
@@ -81,21 +82,21 @@ const getCategories = async () => {
         strCategoryDescription,
         strCategoryThumb,
       } of data.categories) {
-        categoriesId.push(idCategory);
-        categories.push(strCategory);
-        categoriesDescription.push(strCategoryDescription);
-        categoriesThumb.push(strCategoryThumb);
+        categoriesId.push(idCategory)
+        categories.push(strCategory)
+        categoriesDescription.push(strCategoryDescription)
+        categoriesThumb.push(strCategoryThumb)
       }
     }
   } catch (error) {
-    console.error("getCategories", error);
+    console.error("getCategories", error)
   }
-};
+}
 
 const getIngredients = async () => {
   try {
-    const response = await fetch(URL.INGREDIENTS);
-    const data = await response.json();
+    const response = await fetch(URL.INGREDIENTS)
+    const data = await response.json()
     if (data) {
       // idIngredient
       // strIngredient
@@ -105,39 +106,39 @@ const getIngredients = async () => {
         strIngredient,
         strDescription,
       } of data.meals) {
-        ingredientsId.push(idIngredient);
-        ingredients.push(strIngredient);
-        ingredientsDescription.push(strDescription);
+        ingredientsId.push(idIngredient)
+        ingredients.push(strIngredient)
+        ingredientsDescription.push(strDescription)
       }
     }
   } catch (error) {
-    console.error("getIngredients", error);
+    console.error("getIngredients", error)
   }
-};
+}
 
 const getFullDetailsById = async (id) => {
   try {
-    const response = await fetch(URL.FILTER_BY_ID + id);
-    const data = await response.json();
+    const response = await fetch(URL.FILTER_BY_ID + id)
+    const data = await response.json()
     if (data) {
       // reset
-      detailsById.length = 0;
+      detailsById.length = 0
 
-      detailsById.push(data.meals[0]);
+      detailsById.push(data.meals[0])
     }
   } catch (error) {
-    console.error("getDetailIngredientsById", error);
+    console.error("getDetailIngredientsById", error)
   }
-};
+}
 
 const getFlags = async () => {
   try {
-    const response = await fetch("./country_code.json");
-    const data = await response.json();
+    const response = await fetch("./country_code.json")
+    const data = await response.json()
     if (data) {
-      return data;
+      return data
     }
   } catch (error) {
-    console.error("getFlags", error);
+    console.error("getFlags", error)
   }
-};
+}
