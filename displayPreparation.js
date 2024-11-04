@@ -3,10 +3,13 @@ import { createFragment, timeOut } from "./main.js"
 import { URL, getDetailsById, getFlags } from "./apiFunctions.js"
 import { DOM, CLASS } from "./global.js"
 
+
 const displayPreparation = async () => {
   const json = await getFlags()
+
   const fragment = createFragment(1)[0]
   const arr = Object.entries(getDetailsById())
+  // console.log(getDetailsById());
   const arr2 = arr.filter(
     (elm) =>
       elm[0].startsWith("strIngredient") &&
@@ -38,6 +41,10 @@ const displayPreparation = async () => {
   }
 
   DOM.RECIPE_PREPARATION_OL().append(fragment)
+  // if (!DOM.RECIPE_PREPARATION_ASIDE.contains(DOM.RECIPE_PREPARATION_FAVORITE())) {
+  //   DOM.RECIPE_PREPARATION_ASIDE.append(DOM.TEMPLATE[4].cloneNode(true))
+  // }
+  DOM.RECIPE_PREPARATION_ASIDE.append(DOM.TEMPLATE[4].cloneNode(true))
 
   DOM.RECIPES().classList.add(CLASS.JS_HIDE)
 
@@ -51,16 +58,15 @@ const displayPreparation = async () => {
 
   DOM.RECIPE_PREPARATION_THUMB().src = getDetailsById().strMealThumb
 
-  DOM.RECIPE_PREPARATION_CATEGORY().textContent =
-    getDetailsById().strCategory ?? "empity"
+  DOM.RECIPE_PREPARATION_CATEGORY().textContent = getDetailsById().strCategory ?? "empity"
 
-  DOM.RECIPE_PREPARATION_AREA().textContent =
-    getDetailsById().strArea ?? "empity"
+  DOM.RECIPE_PREPARATION_AREA().textContent = getDetailsById().strArea ?? "empity"
 
-  DOM.RECIPE_PREPARATION_TAGS().textContent =
-    getDetailsById().strTags ?? "empity"
+  DOM.RECIPE_PREPARATION_TAGS().textContent = getDetailsById().strTags ?? "empity"
 
   DOM.RECIPE_PREPARATION_LINK().href = getDetailsById().strYoutube
+
+
 
   for (let index = 0; index < json.flags.length; index++) {
     if (json.flags[index].hasOwnProperty(getDetailsById().strArea)) {
@@ -82,6 +88,7 @@ const resetPreparationValues = () => {
   DOM.RECIPE_PREPARATION_TEXTAREA().value = ""
   DOM.RECIPE_PREPARATION_THUMB().src = ""
   DOM.RECIPE_PREPARATION_LINK().href = ""
+  DOM.RECIPE_PREPARATION_ASIDE.removeChild(DOM.RECIPE_PREPARATION_ASIDE.lastElementChild)
 }
 
 const startClosingAnimation = async () => {

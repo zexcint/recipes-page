@@ -18,10 +18,15 @@ const DOM = {
   FILTER_BY: $("form > fieldset.containerFilterBy"),
   SEARCH_BTN: $("button.search-btn"),
   FILTER_BTN: $("button.filter-btn"),
+  SHOWFAV_BTN: $("button.showFav"),
   SELECT: $("header > nav > form > fieldset > select"),
   INPUT_OPTIONS: $$("input[name='options']"),
-
+  RECIPE_PREPARATION_ASIDE: $(".recipePreparation > aside"),
+  FAVCONTAINER: $(".favContainer"),
+  FAV_H2: $(".favContainer > section > h2"),
+  
   // Dynamic
+  CONTAINER: () => $(".container"),
   RECIPES: () => $(".recipes"),
   RECIPE_ARTICLES: () => $$(".recipes > article"),
   RECIPE_BTN_ALL: () => $$(".recipe-btn"),
@@ -38,6 +43,9 @@ const DOM = {
   RECIPE_PREPARATION_TAGS: () => $(".recipePreparation > aside > div.tags > p + p"),
   RECIPE_PREPARATION_LINK: () => $(".recipePreparation > aside > div.ytb > a"),
   RECIPE_PREPARATION_OL: () => $(".recipePreparation > ol"),
+  RECIPE_PREPARATION_FAVORITE: () => $(".recipePreparation > aside > button.favorite"),
+  LIST_OF_FAVORITES: () => $(".favContainer > section > ol"),
+  FAVORITE_THUMB: () => $(".favContainer > div")
 };
 
 const CLASS = {

@@ -1,4 +1,4 @@
-export { displayRecipes, createFragment, timeOut }
+export { displayRecipes, createFragment, timeOut, resetAllStates }
 
 import { DOM, CLASS } from "./global.js"
 
@@ -29,6 +29,7 @@ import {
 
 import { createCard } from "./setCards.js"
 import { resetStates } from "./navBar.js"
+import {toggleFavorite, initializeFavorites} from "./addToFavorite.js"
 
 const createFragment = (count) => {
   const arr = []
@@ -63,6 +64,7 @@ const resetAllStates = () => {
   DOM.RECIPES().innerHTML = ""
   DOM.RECIPES().classList.add(CLASS.JS_HIDE)
   DOM.NAVBAR().classList.add(CLASS.JS_HIDE)
+  DOM.FAVCONTAINER.classList.add(CLASS.JS_HIDE)
 
   DOM.CARDS_SWITCH_MODE().forEach((elm) => {
     elm.lastElementChild.hidden = true
@@ -71,9 +73,7 @@ const resetAllStates = () => {
 
   if (DOM.RECIPE_PREPARATION_H2().textContent !== "") {
     resetPreparationValues()
-    console.log(DOM.RECIPE_PREPARATION().classList)
     DOM.RECIPE_PREPARATION().classList.add(CLASS.JS_HIDE)
-    console.log(DOM.RECIPE_PREPARATION().classList)
   }
 }
 
@@ -221,6 +221,8 @@ const run = async () => {
   setCategory()
   handleCardNavigation()
   displayInfoCategory()
+  initializeFavorites()
+  toggleFavorite()
 
   const config = {
     childList: true,

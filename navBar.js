@@ -2,6 +2,8 @@ export { resetStates, getStates }
 import { getCategoryName, getCategoryThumb } from "./apiFunctions.js"
 import { DOM } from "./global.js"
 import { createCard } from "./setCards.js"
+import { timeOut } from "./main.js"
+
 
 const states = {
   currentIndex: 4,
@@ -56,16 +58,20 @@ const prevPage = () => {
   DOM.BTN_PREV.disabled = states.reference.length === 0
 }
 
-DOM.BTN_PREV.addEventListener("click", () => {
+DOM.BTN_PREV.addEventListener("click", async () => {
   prevPage()
   if (DOM.BTN_NEXT.disabled === true) {
     DOM.BTN_NEXT.disabled = false
   }
+  await timeOut(1000)
+  DOM.MAIN_SECTION.scrollIntoView({ behavior: "smooth" })
 })
 
-DOM.BTN_NEXT.addEventListener("click", () => {
+DOM.BTN_NEXT.addEventListener("click", async () => {
   nextPage()
   if (DOM.BTN_PREV.disabled === true) {
     DOM.BTN_PREV.disabled = false
   }
+  await timeOut(1000)
+  DOM.MAIN_SECTION.scrollIntoView({ behavior: "smooth" })
 })

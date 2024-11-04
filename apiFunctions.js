@@ -18,6 +18,9 @@ export {
   categoriesDescription,
   categoriesThumb,
   URL,
+  //test
+  setDetailsById,
+  resetDetailsById
 }
 
 const URL = {
@@ -26,8 +29,7 @@ const URL = {
   INGREDIENTS: "https://www.themealdb.com/api/json/v1/1/list.php?i=list",
   FILTER_BY_NAME: "https://www.themealdb.com/api/json/v1/1/search.php?s=",
   FILTER_BY_ID: "https://www.themealdb.com/api/json/v1/1/lookup.php?i=",
-  FILTER_BY_FIRST_LETTER:
-    "https://www.themealdb.com/api/json/v1/1/search.php?f=",
+  FILTER_BY_FIRST_LETTER: "https://www.themealdb.com/api/json/v1/1/search.php?f=",
   THUMB_INGREDIENT: "https://www.themealdb.com/images/ingredients/",
 }
 
@@ -51,6 +53,10 @@ const getDetailsById = () => detailsById[0]
 const setCategoryId = (str) => categoryId.push(str)
 const setCategoryName = (str) => categoryName.push(str)
 const setCategoryThumb = (str) => categoryThumb.push(str)
+// test
+const setDetailsById = (obj) => detailsById.push(obj)
+const resetDetailsById = () => detailsById.length = 0
+
 
 // reset F
 const resetAllCategories = () => {

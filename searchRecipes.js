@@ -173,6 +173,10 @@ DOM.FORM.addEventListener("submit", async (event) => {
     //   DOM.RECIPES().innerHTML = "";
     // }
   }
+
+  if (event.submitter === DOM.SHOWFAV_BTN) {
+    DOM.FAVCONTAINER.classList.toggle(CLASS.JS_HIDE)
+  }
 })
 
 // reset
