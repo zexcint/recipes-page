@@ -216,7 +216,14 @@ DOM.SELECT.addEventListener("change", async (event) => {
       const response = await fetch(URL.FILTER_BY_NAME + name)
       const data = await response.json()
       if (data) {
-        const meal = data.meals[0]
+        let meal = data.meals
+        
+        if (meal.length > 1) {
+          meal = meal.filter((meal) => meal.strMeal.toLowerCase() === name)[0]
+        } else {
+          meal = data.meals[0]
+        }
+
         const mealName = [meal.strMeal] // arr
         const mealThumb = [meal.strMealThumb] // arr
         const mealId = [meal.idMeal] // arr
@@ -226,6 +233,8 @@ DOM.SELECT.addEventListener("change", async (event) => {
         setCategoryId(mealId[0]) // string
         setCategoryName(mealName[0]) // string
         displayRecipes(mealName, mealThumb, 0, 1) // 2 arr
+        await timeOut(1000)
+        DOM.MAIN_SECTION.scrollIntoView({behavior: "smooth"})
       }
     } catch (error) {
       console.error("api by name", error)

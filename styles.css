@@ -278,8 +278,8 @@ footer > form > button:hover {
   gap: 16px;
   padding: 6px;
   border-radius: 4px;
-  min-height: 400px;
-  height: fit-content;
+  /* min-height: 400px; */
+  /* height: fit-content; */
   background: var(--transparent-color);
   box-shadow: 0 0 6px 0 var(--shadow-color);
 }
@@ -287,8 +287,11 @@ footer > form > button:hover {
 /* ===== cards ===== */
 .cards {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: minmax(200px, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+  "x x p"
+  "z z p";
+  grid-template-rows: 1fr 1fr;
   gap: 16px;
 }
 
@@ -296,6 +299,14 @@ footer > form > button:hover {
 .cards:nth-of-type(3),
 .cards:nth-of-type(4) {
   display: none;
+}
+
+.cards > div:nth-child(1) {
+  grid-area: x;
+}
+
+.cards > div:nth-child(2) {
+  grid-area: p;
 }
 
 .cards > div {
@@ -611,10 +622,48 @@ footer > form > button:hover {
 
 .recipePreparation > aside {
   grid-row: 3;
-  display: flex;
+  /* display: flex; */
   /* flex-direction: column; */
+  display: grid;
+  grid-template-areas:
+  "thumb category favorites"
+  "thumb area download"
+  "thumb tags link";
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: 1fr 2fr auto;
   gap: 4px;
   /* overflow: auto; */
+}
+
+.recipePreparation > aside > div.thumb {
+  grid-area: thumb;
+}
+.recipePreparation > aside > div.category {
+  grid-area: category;
+}
+.recipePreparation > aside > div.area {
+  grid-area: area;
+}
+.recipePreparation > aside > div.tags {
+  grid-area: tags;
+}
+.recipePreparation > aside > div.ytb {
+  grid-area: link;
+  padding: 8px;
+  border-radius: 4px;
+  align-self: end;
+}
+
+.recipePreparation > aside > button.downloadFav {
+  grid-area: download;
+  align-self: center;
+}
+
+.recipePreparation > aside > button.favorite {
+  grid-area: favorites;
+  /* display: flex; */
+  /* align-items: start; */
+  align-self: start;
 }
 
 .recipePreparation > aside > div {
@@ -663,6 +712,9 @@ footer > form > button:hover {
 }
 
 .recipePreparation > aside > button {
+  border-radius: 4px;
+  padding: 8px;
+  background: var(--transparent-color);
 }
 
 /* .recipePreparation:has(div:hover, img:hover, div:active, img:active) {

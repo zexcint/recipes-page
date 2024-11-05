@@ -24,7 +24,7 @@ const DOM = {
   RECIPE_PREPARATION_ASIDE: $(".recipePreparation > aside"),
   FAVCONTAINER: $(".favContainer"),
   FAV_H2: $(".favContainer > section > h2"),
-  
+
   // Dynamic
   CONTAINER: () => $(".container"),
   RECIPES: () => $(".recipes"),
@@ -45,7 +45,8 @@ const DOM = {
   RECIPE_PREPARATION_OL: () => $(".recipePreparation > ol"),
   RECIPE_PREPARATION_FAVORITE: () => $(".recipePreparation > aside > button.favorite"),
   LIST_OF_FAVORITES: () => $(".favContainer > section > ol"),
-  FAVORITE_THUMB: () => $(".favContainer > div")
+  FAVORITE_THUMB: () => $(".favContainer > div"),
+  RECIPE_PREPARATION_DOWNLOAD: () => $(".recipePreparation > aside > button.downloadFav"),
 };
 
 const CLASS = {

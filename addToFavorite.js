@@ -10,8 +10,8 @@ const CONFIG = {
   subtree: true,
 }
 
-const favNotChecked = DOM.TEMPLATE[4].cloneNode(true).firstElementChild
-const favChecked = DOM.TEMPLATE[5].cloneNode(true)
+const favNotChecked = () => DOM.TEMPLATE[4].cloneNode(true).firstElementChild
+const favChecked = () => DOM.TEMPLATE[5].cloneNode(true)
 
 const toggleFavorite = () => {
   const observer = new MutationObserver((event) => {
@@ -26,19 +26,19 @@ const toggleFavorite = () => {
         const data = Object.values(window.localStorage)
         if (data.includes(favName)) {
           favButton.innerHTML = ""
-          favButton.append(favChecked)
+          favButton.append(favChecked())
         }
       }
 
       DOM.RECIPE_PREPARATION_FAVORITE().addEventListener("click", () => {
-        if (favButton.firstElementChild.innerHTML === favNotChecked.innerHTML) {
+        if (favButton.firstElementChild.innerHTML === favNotChecked().innerHTML) {
           favButton.innerHTML = ""
-          favButton.append(favChecked)
+          favButton.append(favChecked())
           localStorage.setItem(favName, favName)
           toggleFavoriteList(favName, true)
         } else {
           favButton.innerHTML = ""
-          favButton.append(favNotChecked)
+          favButton.append(favNotChecked())
           localStorage.removeItem(favName)
           toggleFavoriteList(favName, false)
         }
