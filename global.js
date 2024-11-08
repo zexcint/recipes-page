@@ -36,7 +36,7 @@ const DOM = {
   RECIPE_PREPARATION: () => $(".recipePreparation"),
   RECIPE_PREPARATION_BTN: () => $(".recipePreparation > button"),
   RECIPE_PREPARATION_H2: () => $(".recipePreparation > h2"),
-  RECIPE_PREPARATION_TEXTAREA: () => $(".recipePreparation > textarea"),
+  RECIPE_PREPARATION_SECTION: () => $(".recipePreparation > section"),
   RECIPE_PREPARATION_THUMB: () => $(".recipePreparation > aside > div.thumb > img"),
   RECIPE_PREPARATION_CATEGORY: () => $(".recipePreparation > aside > div.category > p + p"),
   RECIPE_PREPARATION_AREA: () => $(".recipePreparation > aside > div.area > p + p"),
@@ -55,5 +55,7 @@ const CLASS = {
   JS_SHOW: "js-show",
   JS_HIDE: "js-hide",
   CLOSE_TAB: "closeTab",
-  HIDE_ELM: "hideElm"
+  HIDE_ELM: "hideElm",
+  DISABLED_POINTER: "disablePointer",
+  LOADING: "loadingData"
 };

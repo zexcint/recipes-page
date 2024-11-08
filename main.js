@@ -87,6 +87,7 @@ const displayCategories = () => {
     const [img] = div.children
 
     a.textContent = value
+    a.dataset.id = value
     img.src = categoriesThumb[index]
     img.alt = value
     textarea.value = categoriesDescription[index]
@@ -137,7 +138,8 @@ const setCategory = () => {
       resetAllStates()
 
       const target = event.currentTarget
-      const selectedCategory = target.firstChild.textContent
+      // const selectedCategory = target.firstChild.textContent
+      const selectedCategory = target.dataset.id
       filterByCategory(selectedCategory)
     })
   })
@@ -164,7 +166,7 @@ const filterByCategory = async (prop) => {
   }
 }
 
-const displayRecipes = (arr, arr2, start, end) => {
+const displayRecipes = async (arr, arr2, start, end) => {
   const [fragment] = createFragment(1)
 
   for (let index = start; index < end; index++) {
@@ -243,7 +245,8 @@ const run = async () => {
 
       DOM.RECIPE_ARTICLES().forEach((article) => {
         article.addEventListener("click", async (event) => {
-          const target = event.currentTarget.textContent.trim()
+          // const target = event.currentTarget.textContent.trim()
+          const target = event.currentTarget.dataset.id
           const id = getCategoryName().indexOf(target)
           await getFullDetailsById(getCategoryId()[id])
           displayPreparation()

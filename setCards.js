@@ -5,5 +5,6 @@ export const createCard = (arr1, arr2, container, index) => {
   span.textContent = arr1[index]
   article.style.backgroundImage = `url(${arr2[index]})`
   article.append(span)
+  article.dataset.id = arr1[index]
   container.append(article)
 }

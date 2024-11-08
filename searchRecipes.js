@@ -13,6 +13,8 @@ import {
 import { resetPreparationValues } from "./displayPreparation.js"
 import { resetStates, getStates } from "./navBar.js"
 
+const loading = document.querySelector("form:first-child span")
+
 const MESSAGE = {
   notFoundName: "No recipes found with this name.",
   notFoundLetter: " - No recipes found starting with this letter.",
@@ -197,7 +199,10 @@ DOM.FORM.addEventListener("input", async (event) => {
 // });
 
 DOM.SELECT.addEventListener("change", async (event) => {
-  if (DOM.SELECT.innerHTML !== "" && event.target.value.length > 1) {
+  event.preventDefault()
+  const longitude = event.target.value.length
+
+  if (isSelectNotEmpty() && longitude > 1) {
     const name = event.target.value
 
     if (DOM.RECIPES().innerHTML !== "") {
@@ -217,7 +222,7 @@ DOM.SELECT.addEventListener("change", async (event) => {
       const data = await response.json()
       if (data) {
         let meal = data.meals
-        
+
         if (meal.length > 1) {
           meal = meal.filter((meal) => meal.strMeal.toLowerCase() === name)[0]
         } else {
@@ -239,29 +244,17 @@ DOM.SELECT.addEventListener("change", async (event) => {
     } catch (error) {
       console.error("api by name", error)
     }
-  } else if (DOM.SELECT.innerHTML !== "" && event.target.value.length === 1) {
+  } else if (isSelectNotEmpty() && longitude === 1) {
     const selectedLetter = event.target.value
     const currentTarget = [...DOM.SELECT.childNodes].filter(
       (option) => option.value === selectedLetter
     )[0]
 
     // reset
-    if (DOM.RECIPES().innerHTML !== "") {
-      DOM.RECIPES().innerHTML = ""
-      resetStates()
-      DOM.BTN_NEXT.disabled = true
-      DOM.BTN_PREV.disabled = true
-    }
-
-    if (getCategoryId().length > 0) {
-      resetCategoryId()
-    }
-
-    if (getCategoryName().length > 0) {
-      resetCategoryName()
-    }
+    resetDefault()
 
     // start
+    turnOffSearch()
     try {
       const response = await fetch(URL.FILTER_BY_FIRST_LETTER + selectedLetter)
       const data = await response.json()
@@ -301,19 +294,16 @@ DOM.SELECT.addEventListener("change", async (event) => {
         // console.log(mealsId);
         const countElements = mealsName.length
 
-        if (currentTarget.textContent.includes(MESSAGE.total)) {
-          currentTarget.textContent = selectedLetter.toUpperCase()
-        }
+        currentTarget.textContent = `${selectedLetter.toUpperCase()}${MESSAGE.total}${countElements}`
 
-        currentTarget.textContent += `${MESSAGE.total}${countElements}`
+        await displayRecipes(mealsName, mealsThumb, 0, countElements)
 
-        displayRecipes(mealsName, mealsThumb, 0, countElements)
+        turnOnSearch()
+
+        DOM.MAIN_SECTION.scrollIntoView({behavior: "smooth"})
       } else {
-        if (currentTarget.textContent.includes(MESSAGE.notFoundLetter)) {
-          currentTarget.textContent = selectedLetter.toUpperCase()
-        }
-
-        currentTarget.textContent += MESSAGE.notFoundLetter
+        currentTarget.textContent = `${selectedLetter.toUpperCase()}${MESSAGE.notFoundLetter}`
+        turnOnSearch()
       }
     } catch (error) {
       console.error(error)
@@ -321,3 +311,51 @@ DOM.SELECT.addEventListener("change", async (event) => {
     // end
   }
 })
+
+
+const isSelectNotEmpty = () => {
+  return DOM.SELECT.innerHTML !== ""
+}
+
+const turnOnSearch = () => {
+  const elementsToEnable = document.querySelectorAll(".cards :is(a, button), form:first-child :is(button, input, select)")
+
+  elementsToEnable.forEach(element => {
+    if (element.nodeName === "INPUT") {
+      element.disabled = false
+    }
+    element.classList.remove(CLASS.DISABLED_POINTER)
+  })
+
+  loading.classList.remove(CLASS.LOADING)
+}
+
+const turnOffSearch = () => {
+  const inputsToDisable = document.querySelectorAll(".cards :is(a, button), form:first-child :is(button, input, select)")
+
+  loading.classList.add(CLASS.LOADING)
+
+  inputsToDisable.forEach(element => {
+    if (element.nodeName === "INPUT") {
+      element.disabled = true
+    }
+    element.classList.add(CLASS.DISABLED_POINTER)
+   })
+}
+
+const resetDefault = () => {
+  if (DOM.RECIPES().innerHTML !== "") {
+    DOM.RECIPES().innerHTML = ""
+    resetStates()
+    DOM.BTN_NEXT.disabled = true
+    DOM.BTN_PREV.disabled = true
+  }
+
+  if (getCategoryId().length > 0) {
+    resetCategoryId()
+  }
+
+  if (getCategoryName().length > 0) {
+    resetCategoryName()
+  }
+}

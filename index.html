@@ -21,12 +21,13 @@
 <body>
   <header>
     <h1>The Recipe Box</h1>
-    <h2>Discover Delicious New Favorites</h2>
+    <h2>Discover Delicious New flavors</h2>
     <nav>
       <form>
         <fieldset class="containerSearch">
           <input type="search" autofocus placeholder="Search...">
           <select class="hideElm"></select>
+          <span></span>
 
           <button type="submit" class="search-btn" title="Search recipe">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -65,7 +66,7 @@
           <ol></ol>
         </section>
 
-        <div></div>
+        <div title="Show Recipe"></div>
     </div>
     </nav>
   </header>
@@ -112,21 +113,22 @@
         <section class="recipePreparation js-hide">
           <h2></h2>
           <ol class="ingredients"></ol>
-          <textarea readonly></textarea>
+          <!-- <textarea readonly></textarea> -->
+          <section class="instructionText"></section>
           <aside>
             <div class="thumb">
               <img src="./assets/placeholder.png" alt="thumb">
             </div>
             <div class="category">
-              <p>category</p>
+              <p>Category</p>
               <p></p>
             </div>
             <div class="area">
-              <p>area</p>
+              <p>Area</p>
               <p></p>
             </div>
             <div class="tags">
-              <p>tags</p>
+              <p>Tags</p>
               <p></p>
             </div>
             <div class="ytb">
@@ -229,16 +231,15 @@
     <option value="" disabled selected>Result:</option>
 
     <button class="favorite" title="add to favorites">
-      <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-star"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
+      <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#F6FEDB"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-star"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
     </button>
 
     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="#e5a50a"  class="icon icon-tabler icons-tabler-filled icon-tabler-star"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" /></svg>
 
     <button class="downloadFav">
-      <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#f66151"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
+      <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#F6FEDB"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
     </button>
   </template>
-
 </body>
 
 </html>

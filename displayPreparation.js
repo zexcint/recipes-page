@@ -54,8 +54,11 @@ const displayPreparation = async () => {
   DOM.RECIPE_PREPARATION().classList.remove(CLASS.JS_HIDE)
 
   DOM.RECIPE_PREPARATION_H2().textContent = getDetailsById().strMeal
+  // test
+  DOM.RECIPE_PREPARATION_H2().dataset.id = getDetailsById().strMeal
 
-  DOM.RECIPE_PREPARATION_TEXTAREA().value = getDetailsById().strInstructions
+  // DOM.RECIPE_PREPARATION_TEXTAREA().value = getDetailsById().strInstructions
+  formatText()
 
   DOM.RECIPE_PREPARATION_THUMB().src = getDetailsById().strMealThumb
 
@@ -86,7 +89,8 @@ const resetPreparationValues = () => {
   DOM.RECIPE_PREPARATION_CATEGORY().textContent = " "
   DOM.RECIPE_PREPARATION_AREA().textContent = ""
   DOM.RECIPE_PREPARATION_TAGS().textContent = ""
-  DOM.RECIPE_PREPARATION_TEXTAREA().value = ""
+  // DOM.RECIPE_PREPARATION_TEXTAREA().value = ""
+  DOM.RECIPE_PREPARATION_SECTION().innerHTML = ""
   DOM.RECIPE_PREPARATION_THUMB().src = ""
   DOM.RECIPE_PREPARATION_LINK().href = ""
   // DOM.RECIPE_PREPARATION_ASIDE.removeChild(DOM.RECIPE_PREPARATION_ASIDE.lastElementChild)
@@ -95,7 +99,7 @@ const resetPreparationValues = () => {
 
   for (let index = 0; index < buttons.length; index++) {
     DOM.RECIPE_PREPARATION_ASIDE.removeChild(buttons[index])
-    console.log(buttons[index]);
+    // console.log(buttons[index]);
   }
 }
 
@@ -111,22 +115,62 @@ const startClosingAnimation = async () => {
 
 function saveToPdf() {
   const newWindow = window.open()
-  let name = ""
-  let ingredients = ""
-  let preparation = ""
+  const head = document.createElement("head")
+  const html = document.createElement("html")
+  const body = document.createElement("body")
+  const title = document.createElement("title")
+  const h1 = document.createElement("h1")
+  const ol = document.createElement("h1")
+  const article = document.createElement("article")
 
-  name = `<b>${DOM.RECIPE_PREPARATION_H2().textContent.toUpperCase()}</b>: <br> <br>`
+  h1.textContent = `${DOM.RECIPE_PREPARATION_H2().dataset.id.toUpperCase()}:`
+  title.textContent = DOM.RECIPE_PREPARATION_H2().dataset.id.toUpperCase()
+  head.append(title)
 
   for (let index = 0; index < DOM.RECIPE_PREPARATION_OL().childElementCount; index++) {
-    ingredients += `${DOM.RECIPE_PREPARATION_OL().children[index].textContent} <br>`
+    const li = document.createElement("li")
+    li.textContent = `${DOM.RECIPE_PREPARATION_OL().children[index].textContent}`
+    if (li.textContent !== "") {
+      ol.append(li)
+    }
   }
 
-  preparation = `${DOM.RECIPE_PREPARATION_TEXTAREA().value}`
+  const paragraph  = [...DOM.RECIPE_PREPARATION_SECTION().children]
+  paragraph.forEach(p => {
+    p.textContent += "."
+    article.append(p)
+  })
 
-  newWindow.document.write(name)
-  newWindow.document.write(ingredients)
-  newWindow.document.write(preparation)
+  body.append(h1, ol, article)
+  html.append(head, body)
+  newWindow.document.write(html.innerHTML)
   newWindow.document.close()
   newWindow.print()
   newWindow.close()
+}
+
+const formatText = () => {
+  const text = getDetailsById().strInstructions
+  const textModified = []
+  let arr = []
+
+  for(let i = 0; i < text.length; i++) {
+    if(text[i] === ".") {
+      arr.push(i)
+    }
+  }
+
+  let position = 0
+  for(let i = 0; i < arr.length; i++) {
+    textModified.push(text.slice(position, arr[i]))
+    position = arr[i] + 1
+  }
+
+  const fragment = new DocumentFragment()
+  for (let i = 0; i < textModified.length; i++) {
+    const p = document.createElement("p")
+    p.textContent = textModified[i]
+    fragment.append(p)
+  }
+  DOM.RECIPE_PREPARATION_SECTION().append(fragment)
 }

@@ -20,7 +20,7 @@ const toggleFavorite = () => {
     if (event[0].addedNodes[0] && event[0].addedNodes[0].nodeType === 1) {
       const favButton = event[0].addedNodes[0]
       const favContainer = favButton.closest("section")
-      const favName = favContainer.firstElementChild.textContent
+      const favName = favContainer.firstElementChild.dataset.id
 
       if (window.localStorage.length > 0) {
         const data = Object.values(window.localStorage)
@@ -30,19 +30,21 @@ const toggleFavorite = () => {
         }
       }
 
-      DOM.RECIPE_PREPARATION_FAVORITE().addEventListener("click", () => {
-        if (favButton.firstElementChild.innerHTML === favNotChecked().innerHTML) {
-          favButton.innerHTML = ""
-          favButton.append(favChecked())
-          localStorage.setItem(favName, favName)
-          toggleFavoriteList(favName, true)
-        } else {
-          favButton.innerHTML = ""
-          favButton.append(favNotChecked())
-          localStorage.removeItem(favName)
-          toggleFavoriteList(favName, false)
-        }
-      })
+      if (DOM.RECIPE_PREPARATION_FAVORITE() !== null) {
+        DOM.RECIPE_PREPARATION_FAVORITE().addEventListener("click", () => {
+          if (favButton.firstElementChild.innerHTML === favNotChecked().innerHTML) {
+            favButton.innerHTML = ""
+            favButton.append(favChecked())
+            localStorage.setItem(favName, favName)
+            toggleFavoriteList(favName, true)
+          } else {
+            favButton.innerHTML = ""
+            favButton.append(favNotChecked())
+            localStorage.removeItem(favName)
+            toggleFavoriteList(favName, false)
+          }
+        })
+      }
     }
     observer.observe(NODE_TARGET, CONFIG)
   })
@@ -57,11 +59,12 @@ const toggleFavoriteList = (data, value) => {
     for (let index = 0; index < 1; index++) {
       const li = document.createElement("li")
       li.textContent = data
+      li.dataset.id = data
       fragment.append(li)
     }
 
     const itemList = [...DOM.LIST_OF_FAVORITES().children]
-    const exists = itemList.some((li) => li.textContent === data)
+    const exists = itemList.some((li) => li.dataset.id === data)
     if (!exists) {
       DOM.LIST_OF_FAVORITES().prepend(fragment)
       getAndDisplayFavorite()
@@ -69,7 +72,7 @@ const toggleFavoriteList = (data, value) => {
     }
   } else {
     const itemList = [...DOM.LIST_OF_FAVORITES().children]
-    const item = itemList.filter((li) => li.textContent === data)
+    const item = itemList.filter((li) => li.dataset.id === data)
     if (item.length > 0) {
       DOM.LIST_OF_FAVORITES().removeChild(item[0])
       DOM.FAVORITE_THUMB().innerHTML = ""
@@ -86,6 +89,7 @@ const initializeFavorites = () => {
     for (let index = 0; index < data.length; index++) {
       const li = document.createElement("li")
       li.textContent = data[index]
+      li.dataset.id = data[index]
       fragment.append(li)
     }
     DOM.LIST_OF_FAVORITES().prepend(fragment)
@@ -102,14 +106,14 @@ const getAndDisplayFavorite = () => {
       if (!li.hasAttribute("clicked")) {
         li.addEventListener("click", async () => {
           try {
-            const response = await fetch(URL.FILTER_BY_NAME + li.textContent)
+            const response = await fetch(URL.FILTER_BY_NAME + li.dataset.id)
             const data = await response.json()
             if (data) {
               const thumb = document.createElement("img")
               let obj = data.meals
 
               if (obj.length > 1) {
-                obj = obj.filter((meal) => meal.strMeal === li.textContent)
+                obj = obj.filter((meal) => meal.strMeal === li.dataset.id)
               }
 
               thumb.src = obj[0].strMealThumb

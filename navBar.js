@@ -4,7 +4,6 @@ import { DOM } from "./global.js"
 import { createCard } from "./setCards.js"
 import { timeOut } from "./main.js"
 
-
 const states = {
   currentIndex: 4,
   reference: [],
@@ -51,10 +50,8 @@ const nextPage = () => {
 
 const prevPage = () => {
   DOM.MAIN_SECTION.replaceChild(states.reference.pop(), DOM.RECIPES())
-  states.currentIndex =
-    getCategoryName().indexOf(
-      DOM.RECIPES().lastElementChild.textContent.trim()
-    ) + 1
+  // states.currentIndex = getCategoryName().indexOf(DOM.RECIPES().lastElementChild.textContent.trim()) + 1
+  states.currentIndex = getCategoryName().indexOf(DOM.RECIPES().lastElementChild.dataset.id) + 1
   DOM.BTN_PREV.disabled = states.reference.length === 0
 }
 
