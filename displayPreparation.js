@@ -113,7 +113,7 @@ const startClosingAnimation = async () => {
 }
 
 
-function saveToPdf() {
+async function saveToPdf() {
   const newWindow = window.open()
   const head = document.createElement("head")
   const html = document.createElement("html")
@@ -137,7 +137,6 @@ function saveToPdf() {
 
   const paragraph  = [...DOM.RECIPE_PREPARATION_SECTION().children]
   paragraph.forEach(p => {
-    p.textContent += "."
     article.append(p)
   })
 
@@ -145,6 +144,7 @@ function saveToPdf() {
   html.append(head, body)
   newWindow.document.write(html.innerHTML)
   newWindow.document.close()
+  await timeOut(1000)
   newWindow.print()
   newWindow.close()
 }
@@ -169,7 +169,11 @@ const formatText = () => {
   const fragment = new DocumentFragment()
   for (let i = 0; i < textModified.length; i++) {
     const p = document.createElement("p")
-    p.textContent = textModified[i]
+    if ((i + 1) < 10) {
+      p.textContent = `0${i + 1}:\t${textModified[i].trim()}.`
+    } else {
+      p.textContent = `${i + 1}:\t${textModified[i].trim()}.`
+    }
     fragment.append(p)
   }
   DOM.RECIPE_PREPARATION_SECTION().append(fragment)

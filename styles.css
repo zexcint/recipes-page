@@ -597,6 +597,15 @@ footer > form > button:hover {
   overflow: auto;
 }
 
+.recipePreparation > section > p {
+  /* background: var(--textarea-background); */
+}
+
+.recipePreparation > section > p::first-letter {
+  /* font-weight: bold; */
+}
+
+
 .recipePreparation  button {
   display: flex;
   justify-content: center;
